@@ -1,12 +1,22 @@
-<header>
-    <div class="header-container">
-        {% url logo.url_name as logo_url %}
-        <a href="{{ logo_url }}">{{ logo.title }}</a>
-        <nav>
-        {% for item in menu %}
-            {% url item.url_name as i_url %}
-            <a href="{{ i_url }}">{{ item.title }}</a>
-        {% endfor %}
-        </nav>
-    </div>
+{% load static %}
+
+<header class="page-layout__header">
+    <nav class="navigation">
+        <div class="navigation__logo">
+            {% url logo.url_name as logo_url %}
+            <a href="{{ logo_url }}">
+                <img src="{% static 'images/logo.png' %}">
+            </a>
+        </div>
+        <div class="navigation__menu">
+            <nav class="menu">
+                {% for item in menu %}
+                <div class="menu__tab">
+                    {% url item.url_name as i_url %}
+                    <a class="menu__item" href="{{ i_url }}">{{ item.title }}</a>
+                </div>
+                {% endfor %}
+            </nav>
+        </div>
+    </nav>
 </header>

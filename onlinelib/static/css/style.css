@@ -1,7 +1,43 @@
 * {
-    font: 1.1em sans-serif
+    font: 1.1em sans-serif;
+
 }
 
-.header-container {
-    background-color: darkgreen;
+.page-layout {
+    display: grid;
+    margin: 0;
+    margin-inline: 0;
+}
+
+.page-layout__header {
+    background-color: #022e0b;
+    position: sticky;
+    top: 0;
+    box-sizing: border-box;
+    padding: .75rem;
+    font-color: white;
+    color: white
+}
+
+.navigation {
+    display: grid;
+    column-gap: 1rem;
+    align-items: center;
+    grid-template-columns: min-content 1fr min-content;
+    justify-items: center;
+}
+
+.navigation__menu {
+    display: contents;
+}
+
+.menu {
+    align-items: center;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.page-layout__header a {
+    text-decoration: none;
+    color: inherit;
 }
