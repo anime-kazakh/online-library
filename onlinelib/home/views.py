@@ -1,19 +1,20 @@
 from django.shortcuts import render
 
 
-menu = [
-    { 'title': 'Главная страница', 'url_name': 'home' },
-    { 'title': 'О себе', 'url_name': 'about' },
-]
+data = {
+    'logo': { 'title': 'Главная страница', 'url_name': 'home' },
+    'menu': [
+        { 'title': 'О себе', 'url_name': 'about' },
+        { 'title': 'Книги', 'url_name': 'books' },
+    ],
+}
 
 def index(request):
-    data = {
-        'menu': menu,
-    }
-    return render(request, 'home/index.html', context=data)
+    _context = {  }
+    _context.update(data)
+    return render(request, 'home/index.html', context=_context)
 
 def about(request):
-    data = {
-        'menu': menu,
-    }
-    return render(request, 'home/about.html', context=data)
+    _context = {}
+    _context.update(data)
+    return render(request, 'home/about.html', context=_context)
