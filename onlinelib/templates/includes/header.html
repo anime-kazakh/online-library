@@ -1,0 +1,12 @@
+<header>
+    <div class="header-container">
+        {% url logo.url_name as logo_url %}
+        <a href="{{ logo_url }}">{{ logo.title }}</a>
+        <nav>
+        {% for item in menu %}
+            {% url item.url_name as i_url %}
+            <a href="{{ i_url }}">{{ item.title }}</a>
+        {% endfor %}
+        </nav>
+    </div>
+</header>
