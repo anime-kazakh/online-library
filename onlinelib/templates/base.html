@@ -1,10 +1,19 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Моя библиотека</title>
+    <link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 <body>
+{% comment %}
+    В теге include можно прописать флаг only и тогда в него не будут передавать значения.
+    {% include "file.name" only %}.
+    А также можно в ручную передавать значения.
+    {% include "name_snippet.html" with person="Jane" greeting="Hello" %}
+{% endcomment %}
 {% include "includes/header.html" %}
 {% block content %} {% endblock %}
 {% include "includes/footer.html" %}
