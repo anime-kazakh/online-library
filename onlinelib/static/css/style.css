@@ -5,8 +5,11 @@
 
 .page-layout {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: min-content 1fr min-content;
     margin: 0;
     margin-inline: 0;
+    min-height: 100svh;
 }
 
 .page-layout__header {
@@ -15,8 +18,8 @@
     top: 0;
     box-sizing: border-box;
     padding: .75rem;
-    font-color: white;
-    color: white
+    color: white;
+    height: min-content;
 }
 
 .navigation {
@@ -25,6 +28,16 @@
     align-items: center;
     grid-template-columns: min-content 1fr min-content;
     justify-items: center;
+}
+
+.navigation__logo {
+}
+
+.logo {
+    max-height: 100%;
+    height: 2.5rem;
+    width: auto;
+    object-fit: contain;
 }
 
 .navigation__menu {
