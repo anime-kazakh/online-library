@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
     'books.apps.BooksConfig',
+    'author.apps.AuthorConfig',
+    'genre.apps.GenreConfig',
 ]
 
 MIDDLEWARE = [
