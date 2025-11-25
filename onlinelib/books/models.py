@@ -5,10 +5,10 @@ class Book(models.Model):
     title = models.CharField(max_length=255)
     original_title = models.CharField(max_length=255)
     cover_image = models.ImageField(
-        upload_to='images/%Y/%m/%d/',
-        default=None,
-        blank=True,
-        null=True
+        upload_to='books/covers/%Y/%m/%d/',
+        blank=False,
+        null=False,
+        default='books/covers/default.png',
     )
     description = models.TextField()
     publication_year = models.IntegerField()
@@ -27,7 +27,7 @@ class Language(models.Model):
 class Files(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     book_file = models.FileField(
-        upload_to='files/%Y/%m/%d/',
+        upload_to='books/files/%Y/%m/%d/',
         default=None,
         blank=False,
         null=False,
