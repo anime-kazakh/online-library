@@ -8,4 +8,4 @@ class Genre(models.Model):
         null=False,
         unique=True,
     )
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)

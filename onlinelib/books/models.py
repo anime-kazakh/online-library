@@ -3,17 +3,17 @@ from django.db import models
 # Create your models here.
 class Book(models.Model):
     title = models.CharField(max_length=255)
-    original_title = models.CharField(max_length=255)
+    original_title = models.CharField(max_length=255, blank=True, null=True)
     cover_image = models.ImageField(
         upload_to='books/covers/%Y/%m/%d/',
         blank=False,
         null=False,
         default='books/covers/default.png',
     )
-    description = models.TextField()
-    publication_year = models.IntegerField()
-    isbn = models.TextField()
-    upload_date = models.DateField(auto_now_add=True, blank=False, null=False)
+    description = models.TextField(blank=True, null=True)
+    publication_year = models.IntegerField(blank=True, null=True)
+    isbn = models.TextField(blank=True, null=True)
+    upload_date = models.DateField(auto_now_add=True)
     views_count = models.IntegerField(default=0)
     status_type = models.TextChoices('status_type', 'available unavailable')
     status = models.TextField(choices=status_type, default='available')
