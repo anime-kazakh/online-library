@@ -1,5 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Страница авторов.</h1>
+<div>
+    <ul>
+        {% for author in authors %}
+        <li>
+            {{ author.full_name }}
+            <ul>
+                <li>{{ author.bio|linebreaks|truncatechars:40 }}</li>
+                <li>
+                    <a href="{{ author.get_absolute_url }}">Читать дальше.</a>
+                </li>
+            </ul>
+        </li>
+        <hr/>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
