@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <div>
+        <img src="{% static book.cover_image %}">
+    </div>
+    <div>
+        <ul>
+            <li>
+                Название:
+                <ul>
+                    <li>{{ book.title }}</li>
+                </ul>
+            </li>
+            {% if book.original_title %}
+            <li>
+                Оригинальное название:
+                <ul>
+                    <li>{{ book.original_title }}</li>
+                </ul>
+            </li>
+            {% endif %}
+            <li>
+                <ul>
+                    Год публикации:
+                    <li>{{ book.publication_year }}</li>
+                </ul>
+            </li>
+            <li>
+                <ul>
+                    ISBN:
+                    <li>{{ book.isbn }}</li>
+                </ul>
+            </li>
+            <li>
+                Описание:
+                <ul>
+                    <li>{{ book.description }}</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+{% if files %}
+<div>
+    <table>
+        <tr>
+            <td>Имя файла</td>
+            <td>Язык</td>
+            <td>Размер файла</td>
+        </tr>
+        {% for file in files %}
+        <tr>
+            <td>{{ file.book_file.name }}</td>
+            <td>{{ file.language.name }}</td>
+            <td>{{ file.book_file.size }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+{% endblock %}

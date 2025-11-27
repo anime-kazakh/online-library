@@ -1,9 +1,11 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Book(models.Model):
     title = models.CharField(max_length=255)
     original_title = models.CharField(max_length=255, blank=True, null=True)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True)
     cover_image = models.ImageField(
         upload_to='books/covers/%Y/%m/%d/',
         blank=False,
@@ -17,6 +19,12 @@ class Book(models.Model):
     views_count = models.IntegerField(default=0)
     status_type = models.TextChoices('status_type', 'available unavailable')
     status = models.TextField(choices=status_type, default='available')
+
+    class Meta:
+        ordering = ['title']
+
+    def get_absolute_url(self):
+        return reverse('book-page', kwargs={ 'book_slug': self.slug })
 
 
 class Language(models.Model):
@@ -32,7 +40,6 @@ class Files(models.Model):
         blank=False,
         null=False,
     )
-    file_size = models.IntegerField(default=0)
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     upload_date = models.DateField(auto_now_add=True, blank=False, null=False)
     download_count = models.IntegerField(default=0)

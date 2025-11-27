@@ -1,5 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Страницы книг.</h1>
+<table>
+    {% for book in books %}
+    <tr>
+        <td>
+            <a href="{{ book.get_absolute_url }}">
+                {{ book.title }}
+            </a>
+        </td>
+        {% if book.original_title %}
+        <td>
+            {{ book.original_title }}
+        </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}
