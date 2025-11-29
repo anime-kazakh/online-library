@@ -20,4 +20,4 @@ class Author(models.Model):
         ordering = ['full_name']
 
     def get_absolute_url(self):
-        return reverse('author-page', kwargs={'slug': self.slug})
+        return reverse('author-page', kwargs={ 'slug': self.slug })

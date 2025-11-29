@@ -19,6 +19,8 @@ class Book(models.Model):
     views_count = models.IntegerField(default=0)
     status_type = models.TextChoices('status_type', 'available unavailable')
     status = models.TextField(choices=status_type, default='available')
+    authors = models.ManyToManyField('author.Author', blank=True, related_name='books')
+    genres = models.ManyToManyField('genre.Genre', blank=True, related_name='books')
 
     class Meta:
         ordering = ['title']
