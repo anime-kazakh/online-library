@@ -1,0 +1,9 @@
+footer {
+    display: grid;
+}
+
+.footer {
+    background-color: #407A55;
+    color: white;
+    font-size: 0.7em;
+}
