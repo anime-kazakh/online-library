@@ -4,8 +4,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Моя библиотека</title>
+    <title>{% block title %}{% endblock %}</title>
     <link type="text/css" href="{% static 'css/header_style.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'css/footer_style.css' %}" rel="stylesheet">
+    {% block head %} {% endblock %}
 </head>
 <body class="page-layout">
 {% comment %}
