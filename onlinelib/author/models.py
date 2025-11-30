@@ -17,7 +17,12 @@ class Author(models.Model):
     bio = models.TextField(blank=True, null=True)
 
     class Meta:
+        verbose_name = "Автор"
+        verbose_name_plural = "Авторы"
         ordering = ['full_name']
+
+    def __str__(self):
+        return self.full_name
 
     def get_absolute_url(self):
         return reverse('author-page', kwargs={ 'slug': self.slug })

@@ -14,7 +14,12 @@ class Genre(models.Model):
     description = models.TextField(blank=True, null=True)
 
     class Meta:
+        verbose_name = "Жанр"
+        verbose_name_plural = "Жанры"
         ordering = ['name']
+
+    def __str__(self):
+        return self.name
 
     def get_absolute_url(self):
         return reverse('genre-page', kwargs={ 'slug': self.slug })

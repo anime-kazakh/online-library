@@ -23,7 +23,12 @@ class Book(models.Model):
     genres = models.ManyToManyField('genre.Genre', blank=True, related_name='books')
 
     class Meta:
+        verbose_name = "Книга"
+        verbose_name_plural = "Книги"
         ordering = ['title']
+
+    def __str__(self):
+        return self.title
 
     def get_absolute_url(self):
         return reverse('book-page', kwargs={ 'book_slug': self.slug })
@@ -32,6 +37,13 @@ class Book(models.Model):
 class Language(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     code = models.CharField(max_length=3, null=False, blank=False, unique=True)
+
+    class Meta:
+        verbose_name = "Язык"
+        verbose_name_plural = "Языки"
+
+    def __str__(self):
+        return self.name + ' - ' + self.code
 
 
 class Files(models.Model):
@@ -46,3 +58,9 @@ class Files(models.Model):
     upload_date = models.DateField(auto_now_add=True, blank=False, null=False)
     download_count = models.IntegerField(default=0)
 
+    class Meta:
+        verbose_name = "Файл книги"
+        verbose_name_plural = "Файлы книг"
+
+    def __str__(self):
+        return self.book_file.name

@@ -7,7 +7,7 @@ def index(request):
     data = {
         'books': Book.objects.filter(status='available')
     }
-    return render(request, 'index.html', context=data)
+    return render(request, 'books/index.html', context=data)
 
 def book_page(request, book_slug):
     book = Book.objects.get(slug=book_slug)
@@ -15,4 +15,4 @@ def book_page(request, book_slug):
         'book': book,
         'files': Files.objects.filter(book=book)
     }
-    return render(request, 'book_page.html', context=data)
+    return render(request, 'books/book_page.html', context=data)
