@@ -1,0 +1,7 @@
+.body-layout
+
+.books {
+    box-sizing: content-box;
+    border: solid lightblue;
+    padding: 10px;
+}
