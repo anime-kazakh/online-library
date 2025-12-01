@@ -1,4 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Книги{% endblock %}
+
+{% block head %}
+<link type="text/css" href="{% static 'css/books_home_style.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
 <table>
