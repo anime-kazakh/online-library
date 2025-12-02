@@ -4,14 +4,12 @@ from django.urls import reverse
 
 # Create your models here.
 class Genre(models.Model):
-    name = models.CharField(
-        max_length=255,
-        blank=False,
-        null=False,
-        unique=True,
-    )
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    description = models.TextField(blank=True, null=True)
+    name = models.CharField( max_length=255, blank=False, null=False,
+                             unique=True, verbose_name="Жанр")
+    slug = models.SlugField(max_length=255, unique=True, db_index=True,
+                            verbose_name="slug")
+    description = models.TextField(blank=True, null=True,
+                                   verbose_name="Описание")
 
     class Meta:
         verbose_name = "Жанр"
