@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from transliterate import slugify
+
 
 # Create your models here.
 class Book(models.Model):
@@ -20,8 +22,14 @@ class Book(models.Model):
     isbn = models.TextField(blank=True, null=True, verbose_name="isbn")
     upload_date = models.DateField(auto_now_add=True, verbose_name="Дата загрузки")
     views_count = models.IntegerField(default=0, verbose_name="Количество просмотров")
-    status_type = models.TextChoices('status_type', 'available unavailable')
-    status = models.TextField(choices=status_type, default='available', verbose_name="Статус")
+
+    class StatusType(models.TextChoices):
+        AVAILABLE = 'available', 'Активная'
+        UNAVAILABLE = 'unavailable', 'Неактиваня'
+
+
+    status = models.TextField(choices=StatusType, default=StatusType.AVAILABLE,
+                              verbose_name="Статус")
     authors = models.ManyToManyField('author.Author', blank=True,
                                      related_name='books', verbose_name="Авторы")
     genres = models.ManyToManyField('genre.Genre', blank=True,
@@ -37,6 +45,10 @@ class Book(models.Model):
 
     def get_absolute_url(self):
         return reverse('book-page', kwargs={ 'book_slug': self.slug })
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
 
 class Language(models.Model):

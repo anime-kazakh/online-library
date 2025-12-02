@@ -6,5 +6,8 @@ from .models import Author
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ('id', 'full_name', 'birth_date', 'death_date')
     list_display_links = ('id', 'full_name')
-    ordering = [ 'full_name' ]
+    readonly_fields = ('slug',)
+    ordering = ('full_name',)
     list_per_page = 20
+    search_fields = ('full_name',)
+    list_filter = ('full_name',)
