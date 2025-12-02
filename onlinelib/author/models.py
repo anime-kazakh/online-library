@@ -4,17 +4,18 @@ from django.urls import reverse
 
 # Create your models here.
 class Author(models.Model):
-    full_name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    birth_date = models.DateField(blank=True, null=True)
-    death_date = models.DateField(blank=True, null=True)
+    full_name = models.CharField(max_length=255, verbose_name="ФИО")
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="slug")
+    birth_date = models.DateField(blank=True, null=True, verbose_name="Дата рождения")
+    death_date = models.DateField(blank=True, null=True, verbose_name="Дата смерти")
     photo = models.ImageField(
         upload_to='author/photos/%Y/%m/%d/',
         blank=False,
         null=False,
-        default='author/photos/default.png'
+        default='author/photos/default.png',
+        verbose_name="Фотография"
     )
-    bio = models.TextField(blank=True, null=True)
+    bio = models.TextField(blank=True, null=True, verbose_name="Биография")
 
     class Meta:
         verbose_name = "Автор"
