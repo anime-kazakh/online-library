@@ -25,8 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('books/', include('books.urls')),
-    path('author/', include('author.urls')),
-    path('genre/', include('genre.urls')),
+    path('authors/', include('author.urls')),
+    path('genres/', include('genre.urls')),
 ]
 
 admin.site.site_header = "Панель администрирования"
