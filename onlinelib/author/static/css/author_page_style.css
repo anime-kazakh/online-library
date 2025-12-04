@@ -1,0 +1,59 @@
+.author-layout {
+    display: grid;
+    grid-template-rows: 1fr min-content;
+    margin: 2em;
+}
+
+.author-layout__author-card {
+}
+
+.author-card__title {
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.author-card {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+}
+
+.photo {
+    min-width: 20vw;
+}
+
+.author-information {
+    margin: 2em;
+}
+
+.author-information h2 {
+    font-weight: bold;
+}
+
+.author-layout__author-books {
+    margin: 2em;
+}
+
+.author-books {
+    width: 100%;
+    margin: 1em;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.author-books th {
+    padding: 0.5em;
+    background-color: lightblue;
+}
+
+.author-books td {
+    padding: 0.5em;
+}
+
+.author-books tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
+.author-books tbody tr:nth-child(even) {
+    background-color: lightblue;
+}

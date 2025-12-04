@@ -1,20 +1,36 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Авторы{% endblock title %}
+
+{% block style %}
+<link type="text/css" href="{% static 'css/author_home_style.css' %}" rel="stylesheet">
+{% endblock style %}
 
 {% block content %}
-<div>
-    <ul>
-        {% for author in authors %}
-        <li>
-            {{ author.full_name }}
-            <ul>
-                <li>{{ author.bio|linebreaks|truncatechars:40 }}</li>
-                <li>
-                    <a href="{{ author.get_absolute_url }}">Читать дальше.</a>
-                </li>
-            </ul>
-        </li>
-        <hr/>
-        {% endfor %}
-    </ul>
+<div class="authors-layout">
+    <div class="filters">
+
+    </div>
+    <table class="authors">
+        <thead>
+            <tr>
+                <th>Полное имя</th>
+                <th>Загруженные книги</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for author in authors %}
+            <tr>
+                <td>
+                    <a href="{{ author.get_absolute_url }}">
+                        {{ author.full_name }}
+                    </a>
+                </td>
+                <td>{{ author.books.count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
-{% endblock %}
+{% endblock content %}
