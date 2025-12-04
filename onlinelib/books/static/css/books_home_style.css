@@ -1,7 +1,29 @@
-.body-layout
+.body-layout {
+    margin: 3em;
+    display: grid;
+    grid-template-rows: min-content min-content;
+}
 
 .books {
-    box-sizing: content-box;
-    border: solid lightblue;
-    padding: 10px;
+    width: 100%;
+    margin 1em;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.books th {
+    padding: 0.5em;
+    background-color: lightblue;
+}
+
+.books td {
+    padding: 0.5em;
+}
+
+.books tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
+.books tbody tr:nth-child(even) {
+    background-color: lightblue;
 }

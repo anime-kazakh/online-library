@@ -3,9 +3,9 @@
 
 {% block title %}Книги{% endblock %}
 
-{% block head %}
+{% block style %}
 <link type="text/css" href="{% static 'css/books_home_style.css' %}" rel="stylesheet">
-{% endblock %}
+{% endblock style %}
 
 {% block content %}
 <div class="body-layout">
@@ -15,35 +15,36 @@
     <table class="books">
         <thead>
             <tr>
-                <th scope="col">Название книги</th>
-                <th scope="col">Оригинальное название</th>
-                <th scope="col">Автор</th>
-                <th scope="col">Количество просмотров</th>
+                <th>Название книги</th>
+                <th>Оригинальное название</th>
+                <th>Автор</th>
+                <th>Количество просмотров</th>
             </tr>
         </thead>
         <tbody>
             {% for book in books %}
             <tr>
-                <a href="{{ book.get_absolute_url }}">
-                    <th scope="row">
+
+                <td>
+                    <a href="{{ book.get_absolute_url }}">
                         {{ book.title }}
-                    </th>
-                    <td>
-                        {% if book.original_title %}
-                            {{ book.original_title }}
-                        {% else %}
-                            Нет
-                        {% endif %}
-                    </td>
-                    <td>
-                        {{% for author in book.authors.all %}
-                        {{ author.full_name }}
-                        {% endfor %}}
-                    </td>
-                    <td>
-                        {{ book.views_count }}
-                    </td>
-                </a>
+                    </a>
+                </td>
+                <td>
+                    {% if book.original_title %}
+                        {{ book.original_title }}
+                    {% else %}
+                        Нет
+                    {% endif %}
+                </td>
+                <td>
+                    {{% for author in book.authors.all %}
+                    {{ author.full_name }}
+                    {% endfor %}}
+                </td>
+                <td>
+                    {{ book.views_count }}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
