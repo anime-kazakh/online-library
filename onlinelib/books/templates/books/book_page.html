@@ -1,64 +1,64 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}
+{{ book.title }}
+{% endblock title %}
+
+{% block style %}
+<link type="text/css" href="{% static 'css/book_page_style.css' %}" rel="stylesheet">
+{% endblock style %}
+
 {% block content %}
-<div>
-    <div>
-        <img src="{% static book.cover_image %}">
+<div class="book-layout">
+    <div class="book-layout__book-card">
+        <h1 class="book-card__title">{{ book.title }}</h1>
+        <div class="book-card">
+            <div class="cover-image">
+                <img width="100%" height="100%" src="{{ book.cover_image.url }}">
+            </div>
+            <div class="book-information">
+
+                {% if book.original_title %}
+                <h2>Оригинальное название:</h2>
+                <p>{{ book.original_title }}</p>
+                {% endif %}
+
+                <h2>Год публикации:</h2>
+                <p>{{ book.publication_year }}</p>
+
+                <h2>ISBN:</h2>
+                <p>{{ book.isbn }}</p>
+
+                <h2>Описание:</h2>
+                <p>{{ book.description|safe }}</p>
+
+            </div>
+        </div>
     </div>
-    <div>
-        <ul>
-            <li>
-                Название:
-                <ul>
-                    <li>{{ book.title }}</li>
-                </ul>
-            </li>
-            {% if book.original_title %}
-            <li>
-                Оригинальное название:
-                <ul>
-                    <li>{{ book.original_title }}</li>
-                </ul>
-            </li>
-            {% endif %}
-            <li>
-                <ul>
-                    Год публикации:
-                    <li>{{ book.publication_year }}</li>
-                </ul>
-            </li>
-            <li>
-                <ul>
-                    ISBN:
-                    <li>{{ book.isbn }}</li>
-                </ul>
-            </li>
-            <li>
-                Описание:
-                <ul>
-                    <li>{{ book.description }}</li>
-                </ul>
-            </li>
-        </ul>
+    {% if files %}
+    <div class="book-layout__book-files">
+        <table class="book-files">
+            <thead>
+                <tr>
+                    <th>Имя файла</th>
+                    <th>Язык</th>
+                    <th>Размер файла</th>
+                    <th>Ссылка для скачивания</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in files %}
+                <tr>
+                    <td>{{ file.book_file.name }}</td>
+                    <td>{{ file.language }}</td>
+                    <td>{{ file.book_file.size|filesizeformat }}</td>
+                    <td><button>Скачать</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+    {% endif %}
 </div>
-{% if files %}
-<div>
-    <table>
-        <tr>
-            <td>Имя файла</td>
-            <td>Язык</td>
-            <td>Размер файла</td>
-        </tr>
-        {% for file in files %}
-        <tr>
-            <td>{{ file.book_file.name }}</td>
-            <td>{{ file.language.name }}</td>
-            <td>{{ file.book_file.size }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
-{% endif %}
-{% endblock %}
+{% endblock content %}

@@ -1,0 +1,59 @@
+.book-layout {
+    display: grid;
+    grid-template-rows: 1fr min-content;
+    margin: 2em;
+}
+
+.book-layout__book-card {
+}
+
+.book-card__title {
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.book-card {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+}
+
+.cover-image {
+    min-width: 20vw;
+}
+
+.book-information {
+    margin: 2em;
+}
+
+.book-information h2 {
+    font-weight: bold;
+}
+
+.book-layout__book-files {
+    margin: 2em;
+}
+
+.book-files {
+    width: 100%;
+    margin: 1em;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.book-files th {
+    padding: 0.5em;
+    background-color: lightblue;
+}
+
+.boo-files td {
+    padding: 0.5em;
+}
+
+.book-files tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
+.book-files tbody tr:nth-child(even) {
+    background-color: lightblue;
+}
