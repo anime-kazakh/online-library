@@ -21,7 +21,7 @@ class Genre(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('genre-page', kwargs={ 'slug': self.slug })
+        return reverse('genre-page', kwargs={ 'genre_slug': self.slug })
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

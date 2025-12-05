@@ -1,5 +1,36 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Каталог{% endblock title %}
+
+{% block style %}
+<link type="text/css" href="{% static 'genre/css/genre_home_style.css' %}" rel="stylesheet">
+{% endblock style %}
 
 {% block content %}
-<h1>Страница жанров книг.</h1>
-{% endblock %}
+<div class="genres-layout">
+    <div class="filters">
+
+    </div>
+    <table class="genres">
+        <thead>
+            <tr>
+                <th>Название жанра</th>
+                <th>Книг в разделе</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for genre in genres %}
+            <tr>
+                <td>
+                    <a href="{{ genre.get_absolute_url }}">
+                        {{ genre.name }}
+                    </a>
+                </td>
+                <td>{{ genre.books.count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

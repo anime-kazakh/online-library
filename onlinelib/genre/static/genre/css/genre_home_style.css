@@ -1,0 +1,32 @@
+.genres-layout {
+    margin: 3em;
+    display: grid;
+    grid-template-rows: min-content min-content;
+}
+
+.filters {
+}
+
+.genres {
+    width: 100%;
+    margin 1em;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.genres th {
+    padding: 0.5em;
+    background-color: lightblue;
+}
+
+.genres td {
+    padding: 0.5em;
+}
+
+.genres tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
+.genres tbody tr:nth-child(even) {
+    background-color: lightblue;
+}
