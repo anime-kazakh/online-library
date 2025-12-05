@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
-from transliterate import slugify
+# from transliterate import slugify
 
 # Create your models here.
 class Genre(models.Model):
@@ -23,6 +23,6 @@ class Genre(models.Model):
     def get_absolute_url(self):
         return reverse('genre-page', kwargs={ 'genre_slug': self.slug })
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.name)
+    #     super().save(*args, **kwargs)

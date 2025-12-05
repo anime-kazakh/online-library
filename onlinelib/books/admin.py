@@ -9,8 +9,10 @@ class BookAdmin(admin.ModelAdmin):
                     'slug', 'upload_date', 'views_count',
                     'status', 'description_info')
     list_display_links = ('id', 'title')
-    readonly_fields = ('slug', 'views_count')
+    readonly_fields = ('views_count', )
+    prepopulated_fields = {'slug': ('title',)}
     ordering = ('title',)
+    filter_horizontal = ('authors', 'genres')
     list_editable = ('status',)
     list_per_page = 20
     actions = ('set_status_available', 'set_status_unavailable')

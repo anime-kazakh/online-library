@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
-from transliterate import slugify
 
+# from transliterate import slugify
 
 # Create your models here.
 class Book(models.Model):
@@ -46,9 +46,9 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse('book-page', kwargs={ 'book_slug': self.slug })
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.title)
+    #     super().save(*args, **kwargs)
 
 
 class Language(models.Model):
