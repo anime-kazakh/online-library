@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Поиск
+{% endblock title %}
+
+{% block style %}
+<link type="text/css" rel="stylesheet" href="{% static 'home/css/search_style.css' %}">
+{% endblock style %}
+
+{% block content %}
+<div class="search-layout">
+    <form class="search-form" action="" method="GET">
+        {{ form }}
+    </form>
+    <ul class="list-result">
+        {% if authors %}
+        <div class="chapter-panel">
+            <p>Авторы</p>
+        </div>
+        {% for author in authors %}
+        <li>
+            <h2>
+                <a href="{{ author.get_absolute_url }}">{{ author.full_name }}</a>
+            </h2>
+            {{ author.bio|linebreaks|truncatewords:40 }}
+        </li>
+        {% endfor %}
+        {% endif %}
+        <br/>
+        {% if books %}
+        <div class="chapter-panel">
+            <p>Книги</p>
+        </div>
+        {% for book in books %}
+        <li>
+            <h2>
+                <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+                {% if book.original_title %}
+                &mdash;
+                {{ book.original_title }}
+                {% endif %}
+            </h2>
+            {{ book.description|linebreaks|truncatewords:40 }}
+        </li>
+        {% endfor %}
+        {% endif %}
+        <br/>
+        {% if genres %}
+        <div class="chapter-panel">
+            <p>Жанры</p>
+        </div>
+        {% for genre in genres %}
+        <li>
+            <h2>
+                <a href="{{ genre.get_absolute_url }}">{{ genre.name }}</a>
+            </h2>
+            {{ genre.description|linebreaks|truncatewords:40 }}
+        </li>
+        {% endfor %}
+        {% endif %}
+    </ul>
+</div>
+{% endblock content %}
