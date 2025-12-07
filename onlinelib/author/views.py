@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from .models import Author
+from .forms import AuthorForm
 
 # Create your views here.
 def index(request):
@@ -14,3 +15,15 @@ def author_page(request, author_slug):
         'author': Author.objects.get(slug=author_slug)
     }
     return render(request, 'author/author_page.html', context=data)
+
+def add_author(request):
+    if request.method == 'POST':
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else: form = AuthorForm()
+
+    data = {
+        'form': form,
+    }
+    return render(request, 'author/add_author.html', context=data)

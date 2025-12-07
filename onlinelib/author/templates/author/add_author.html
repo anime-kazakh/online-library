@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Добавление автора{% endblock title %}
+
+{% block style %}
+<link type="text/css" href="{% static 'author/css/add_author_style.css' %}" rel="stylesheet">
+{% endblock style %}
+
+{% block content %}
+<div class="add-author-layout">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+{% endblock content %}

@@ -30,3 +30,9 @@
 .authors tbody tr:nth-child(even) {
     background-color: lightblue;
 }
+
+.author-form {
+    background-color: black;
+    color: white;
+    border-radius: 1em;
+}
