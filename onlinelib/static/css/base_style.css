@@ -4,7 +4,7 @@
 
 .page-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    /* header body footer */
     grid-template-rows: min-content 1fr min-content;
     margin: 0;
     margin-inline: 0;

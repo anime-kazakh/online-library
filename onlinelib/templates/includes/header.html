@@ -3,20 +3,28 @@
 <header class="page-layout__header">
     <nav class="navigation">
         <div class="navigation__logo">
-            {% url logo.url_name as logo_url %}
-            <a href="{{ logo_url }}">
+            <a href="{% url 'home' %}">
                 <img class="logo" src="{% static 'images/logo.png' %}">
             </a>
         </div>
         <div class="navigation__menu">
             <nav class="menu">
-                {% for item in menu %}
                 <div class="menu__tab">
-                    {% url item.url_name as i_url %}
-                    <a class="menu__item" href="{{ i_url }}">{{ item.title }}</a>
+                    <a class="menu__item" href="{% url 'genre-home' %}">Жанры</a>
                 </div>
-                {% endfor %}
+                <div class="menu__tab">
+                    <a class="menu__item" href="{% url 'author-home' %}">Авторы</a>
+                </div>
+                <div class="menu__tab">
+                    <a class="menu__item" href="{% url 'books-home' %}">Книги</a>
+                </div>
+                <div class="menu__tab">
+                    <a class="menu__item" href="{% url 'about' %}">О сайте</a>
+                </div>
             </nav>
+        </div>
+        <div class="navigation__search">
+            <a class="menu__item" href="{% url 'search' %}">Поиск</a>
         </div>
     </nav>
 </header>
