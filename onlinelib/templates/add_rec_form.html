@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Добавление жанра{% endblock title %}
+
+{% block style %}
+<link type="text/css" href="{% static 'css/add_rec_form_style.css' %}" rel="stylesheet">
+{% endblock style %}
+
+{% block content %}
+<div class="add-rec-layout">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+{% endblock content %}

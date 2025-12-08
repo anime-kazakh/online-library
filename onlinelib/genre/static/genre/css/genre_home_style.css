@@ -30,3 +30,9 @@
 .genres tbody tr:nth-child(even) {
     background-color: lightblue;
 }
+
+.add-genre__link {
+    background-color: black;
+    color: white;
+    border-radius: 2em;
+}
