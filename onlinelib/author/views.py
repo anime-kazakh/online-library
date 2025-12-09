@@ -18,7 +18,7 @@ def author_page(request, author_slug):
 
 def add_author(request):
     if request.method == 'POST':
-        form = AuthorForm(request.POST)
+        form = AuthorForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
     else: form = AuthorForm()

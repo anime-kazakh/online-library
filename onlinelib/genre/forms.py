@@ -7,3 +7,6 @@ class GenreForm(forms.ModelForm):
     class Meta:
         model = Genre
         fields = ('name', 'slug', 'description')
+        labels = {
+            'slug': 'URL',
+        }
