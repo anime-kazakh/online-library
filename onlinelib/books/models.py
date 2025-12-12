@@ -19,7 +19,6 @@ class Book(models.Model):
     )
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
     publication_year = models.IntegerField(blank=True, null=True, verbose_name="Год публикации")
-    isbn = models.TextField(blank=True, null=True, verbose_name="isbn")
     upload_date = models.DateField(auto_now_add=True, verbose_name="Дата загрузки")
     views_count = models.IntegerField(default=0, verbose_name="Количество просмотров")
 
