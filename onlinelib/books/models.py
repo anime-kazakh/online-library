@@ -1,7 +1,8 @@
 from django.db import models
 from django.urls import reverse
 
-# from transliterate import slugify
+from genre.models import Genre, Tag, AgeRating, ContentWarning
+from author.models import Author
 
 # Create your models here.
 class Book(models.Model):
@@ -12,8 +13,7 @@ class Book(models.Model):
                             verbose_name="slug")
     cover_image = models.ImageField(
         upload_to='books/covers/%Y/%m/%d/',
-        blank=False,
-        null=False,
+        blank=False, null=False,
         default='books/covers/default.png',
         verbose_name="Обложка"
     )
@@ -24,15 +24,21 @@ class Book(models.Model):
 
     class StatusType(models.TextChoices):
         AVAILABLE = 'available', 'Активная'
-        UNAVAILABLE = 'unavailable', 'Неактиваня'
+        UNAVAILABLE = 'unavailable', 'Неактивная'
 
 
-    status = models.TextField(choices=StatusType, default=StatusType.AVAILABLE,
-                              verbose_name="Статус")
-    authors = models.ManyToManyField('author.Author', blank=True,
-                                     related_name='books', verbose_name="Авторы")
-    genres = models.ManyToManyField('genre.Genre', blank=True,
-                                    related_name='books', verbose_name="Жанры")
+    status = models.CharField(max_length=255, choices=StatusType,
+                              default=StatusType.AVAILABLE, verbose_name='Статус')
+    authors = models.ManyToManyField(Author, null=True, verbose_name='Авторы',
+                                     related_name='books')
+    genres = models.ManyToManyField(Genre, null=True, verbose_name='Жанры',
+                                    related_name='books')
+    tags = models.ManyToManyField(Tag, null=True, verbose_name='Теги',
+                                  related_name='books')
+    age_rating = models.ForeignKey(AgeRating, on_delete=models.SET_NULL, null=True,
+                                   verbose_name='Возрастной рейтинг', related_name='books')
+    warnings = models.ManyToManyField(ContentWarning, null=True, verbose_name='Предупреждения',
+                                      related_name='books')
 
     class Meta:
         verbose_name = "Книга"

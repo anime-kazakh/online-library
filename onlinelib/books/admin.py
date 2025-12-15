@@ -5,19 +5,19 @@ from .models import Book, Language, Files
 # Register your models here.
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'original_title',
+    list_display = ('title', 'original_title',
                     'slug', 'upload_date', 'views_count',
                     'status', 'description_info')
     list_display_links = ('id', 'title')
     readonly_fields = ('views_count', )
     prepopulated_fields = {'slug': ('title',)}
     ordering = ('title',)
-    filter_horizontal = ('authors', 'genres')
+    filter_horizontal = ('authors', 'genres', 'tags', 'warnings')
     list_editable = ('status',)
     list_per_page = 20
     actions = ('set_status_available', 'set_status_unavailable')
     search_fields = ('title', 'original_title')
-    list_filter = ('status', 'authors', 'genres')
+    list_filter = ('status', 'authors', 'genres', 'tags', 'age_rating')
 
     @admin.display(description="Длина описания (символы)", ordering=Length("description"))
     def description_info(self, book: Book):
