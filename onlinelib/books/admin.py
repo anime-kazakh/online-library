@@ -8,7 +8,7 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'original_title',
                     'slug', 'upload_date', 'views_count',
                     'status', 'description_info')
-    list_display_links = ('id', 'title')
+    list_display_links = ('title', )
     readonly_fields = ('views_count', )
     prepopulated_fields = {'slug': ('title',)}
     ordering = ('title',)

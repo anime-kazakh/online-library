@@ -29,15 +29,15 @@ class Book(models.Model):
 
     status = models.CharField(max_length=255, choices=StatusType,
                               default=StatusType.AVAILABLE, verbose_name='Статус')
-    authors = models.ManyToManyField(Author, null=True, verbose_name='Авторы',
+    authors = models.ManyToManyField(Author, verbose_name='Авторы',
                                      related_name='books')
-    genres = models.ManyToManyField(Genre, null=True, verbose_name='Жанры',
+    genres = models.ManyToManyField(Genre, verbose_name='Жанры',
                                     related_name='books')
-    tags = models.ManyToManyField(Tag, null=True, verbose_name='Теги',
+    tags = models.ManyToManyField(Tag, verbose_name='Теги',
                                   related_name='books')
     age_rating = models.ForeignKey(AgeRating, on_delete=models.SET_NULL, null=True,
                                    verbose_name='Возрастной рейтинг', related_name='books')
-    warnings = models.ManyToManyField(ContentWarning, null=True, verbose_name='Предупреждения',
+    warnings = models.ManyToManyField(ContentWarning, verbose_name='Предупреждения',
                                       related_name='books')
 
     class Meta:
