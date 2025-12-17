@@ -5,13 +5,13 @@ from .models import Genre, Tag, ContentWarning, AgeRating
 # Register your models here.
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'level', 'status')
+    list_display = ('name', 'slug', 'level', 'status', 'parent')
     list_display_links = ('name', )
     # readonly_fields = ('slug',)
     prepopulated_fields = {'slug': ('name',)}
     list_per_page = 20
     search_fields = ('name',)
-    list_editable = ('level', 'status')
+    list_editable = ('level', 'status', 'parent')
     list_filter = ('level', )
     actions = ('set_status_available', 'set_status_unavailable')
 
