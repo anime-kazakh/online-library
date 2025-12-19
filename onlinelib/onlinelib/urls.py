@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+from debug_toolbar.toolbar import debug_toolbar_urls
 
 from onlinelib import settings
 
@@ -27,7 +28,7 @@ urlpatterns = [
     path('books/', include('books.urls')),
     path('authors/', include('author.urls')),
     path('genres/', include('genre.urls')),
-]
+] + debug_toolbar_urls()
 
 admin.site.site_header = "Панель администрирования"
 admin.site.index_title = "Администрирование сайта"
