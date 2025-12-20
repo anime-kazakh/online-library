@@ -6,7 +6,7 @@ from .models import Genre, Tag, ContentWarning, AgeRating
 class GenreForm(forms.ModelForm):
     class Meta:
         model = Genre
-        fields = ('name', 'slug', 'description', 'level', 'status', 'parent')
+        fields = ('name', 'slug', 'description', 'hierarchy', 'status', 'parent')
         labels = {
             'slug': 'URL',
         }
@@ -33,7 +33,7 @@ class ContentWarningForm(forms.ModelForm):
 class AgeRatingForm(forms.ModelForm):
     class Meta:
         model = AgeRating
-        fields = ('name', 'slug', 'min_age', 'max_age')
+        fields = ('name', 'slug', 'min_age')
         labels = {
             'slug': 'Название в запросе'
         }

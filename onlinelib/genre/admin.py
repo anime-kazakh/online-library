@@ -1,18 +1,21 @@
 from django.contrib import admin, messages
 
+from mptt.admin import DraggableMPTTAdmin
+
 from .models import Genre, Tag, ContentWarning, AgeRating
 
 # Register your models here.
 @admin.register(Genre)
-class GenreAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'level', 'status', 'parent')
+class GenreAdmin(DraggableMPTTAdmin):
+    list_display = ('name', 'slug', 'hierarchy', 'status', 'parent')
     list_display_links = ('name', )
+    mptt_level_indent = 5
     # readonly_fields = ('slug',)
     prepopulated_fields = {'slug': ('name',)}
-    list_per_page = 20
+    # list_per_page = 20
     search_fields = ('name',)
-    list_editable = ('level', 'status', 'parent')
-    list_filter = ('level', )
+    list_editable = ('hierarchy', 'status', 'parent')
+    list_filter = ('hierarchy', )
     actions = ('set_status_available', 'set_status_unavailable')
 
     @admin.action(description='Опубликовать')
@@ -47,9 +50,9 @@ class ContentWarningAdmin(admin.ModelAdmin):
 
 @admin.register(AgeRating)
 class AgeRatingAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'min_age', 'max_age')
+    list_display = ('name', 'slug', 'min_age')
     list_display_links = ('name', )
     prepopulated_fields = {'slug': ('name',)}
-    search_fields = ('name', 'min_age', 'max_age')
-    list_editable = ('min_age', 'max_age')
+    search_fields = ('name', 'min_age')
+    list_editable = ('min_age', )
     list_per_page = 20

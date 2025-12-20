@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'debug_toolbar',
+    'mptt',
     'home.apps.HomeConfig',
     'books.apps.BooksConfig',
     'author.apps.AuthorConfig',
