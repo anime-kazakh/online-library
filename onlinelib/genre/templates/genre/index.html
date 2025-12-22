@@ -10,10 +10,32 @@
 {% block content %}
 <div class="genres-layout">
     <div class="filters">
+        {% comment %}
         <div class="add-genre__link">
             <a href="{% url 'add-genre' %}" >Добавить жанр</a>
         </div>
+        {% endcomment %}
     </div>
+    <div class="genre">
+        {% for root in roots %}
+        <div class="tile">
+            <a class="root_name" href="{{ root.get_absolute_url }}">{{ root.name }}</a>
+            {% for ch in root.get_children %}
+                {% if ch.hierarchy == 'group' %}
+                    <p class="group_name">{{ ch.name }}</p>
+                    <ul>
+                    {% for general in ch.get_children %}
+                        <li>{{ general.name }}</li>
+                    {% endfor %}
+                    </ul>
+                {% elif ch.hierarchy == 'general' %}
+                    <p>{{ ch.name }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    {% comment %}
     <table class="genres">
         <thead>
             <tr>
@@ -22,17 +44,18 @@
             </tr>
         </thead>
         <tbody>
-            {% for genre in genres %}
+            {% for root in roots %}
             <tr>
                 <td>
-                    <a href="{{ genre.get_absolute_url }}">
-                        {{ genre.name }}
+                    <a href="{{ root.get_absolute_url }}">
+                        {{ root.name }}
                     </a>
                 </td>
-                <td>{{ genre.books.count }}</td>
+                <td>{{ root.books.count }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    {% endcomment %}
 </div>
 {% endblock content %}
