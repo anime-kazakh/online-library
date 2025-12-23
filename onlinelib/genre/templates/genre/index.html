@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load mptt_tags %}
 
 {% block title %}Каталог{% endblock title %}
 
@@ -9,53 +10,28 @@
 
 {% block content %}
 <div class="genres-layout">
-    <div class="filters">
-        {% comment %}
-        <div class="add-genre__link">
-            <a href="{% url 'add-genre' %}" >Добавить жанр</a>
+    <div class="genres">
+        {% recursetree genres %}
+        {% if node.hierarchy == "root" %}
+        <div class="genre-tile">
+            <h2 class="genre-root">
+                <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+            </h2>
+            <div class="genre-root__content">
+                {{ children }}
+            </div>
         </div>
-        {% endcomment %}
-    </div>
-    <div class="genre">
-        {% for root in roots %}
-        <div class="tile">
-            <a class="root_name" href="{{ root.get_absolute_url }}">{{ root.name }}</a>
-            {% for ch in root.get_children %}
-                {% if ch.hierarchy == 'group' %}
-                    <p class="group_name">{{ ch.name }}</p>
-                    <ul>
-                    {% for general in ch.get_children %}
-                        <li>{{ general.name }}</li>
-                    {% endfor %}
-                    </ul>
-                {% elif ch.hierarchy == 'general' %}
-                    <p>{{ ch.name }}</p>
-                {% endif %}
-            {% endfor %}
+        {% elif node.hierarchy == "group" %}
+        <p class="genre-group">{{ node.name }}</p>
+        <div class="genre-group__content">
+            {{ children }}
         </div>
-        {% endfor %}
+        {% elif node.hierarchy == "general" %}
+        <p class="genre-general">
+            <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+        </p>
+        {% endif %}
+        {% endrecursetree %}
     </div>
-    {% comment %}
-    <table class="genres">
-        <thead>
-            <tr>
-                <th>Название жанра</th>
-                <th>Книг в разделе</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for root in roots %}
-            <tr>
-                <td>
-                    <a href="{{ root.get_absolute_url }}">
-                        {{ root.name }}
-                    </a>
-                </td>
-                <td>{{ root.books.count }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endcomment %}
 </div>
 {% endblock content %}

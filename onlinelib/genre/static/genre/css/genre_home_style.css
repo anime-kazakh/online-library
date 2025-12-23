@@ -1,38 +1,41 @@
 .genres-layout {
     margin: 3em;
     display: grid;
-    grid-template-rows: min-content min-content;
-}
-
-.filters {
+    /*grid-template-rows: min-content min-content;*/
 }
 
 .genres {
-    width: 100%;
-    margin 1em;
-    border-collapse: collapse;
-    text-align: center;
+    column-count: 3;
 }
 
-.genres th {
+.genres a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.genre-tile {
+    margin: 1em;
+    /*border: solid 1px black;*/
+}
+
+.genre-root {
+    margin: 0;
+    font-size: 2em;
+}
+
+.genre-root__content {
     padding: 0.5em;
-    background-color: lightblue;
 }
 
-.genres td {
+.genre-group {
+    margin: 0;
+    color: grey;
+}
+
+.genre-group__content {
     padding: 0.5em;
 }
 
-.genres tbody tr:nth-child(odd) {
-    background-color: white;
-}
-
-.genres tbody tr:nth-child(even) {
-    background-color: lightblue;
-}
-
-.add-genre__link {
-    background-color: black;
-    color: white;
-    border-radius: 2em;
+.genre-general {
+    margin: 5px;
 }
