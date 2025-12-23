@@ -7,6 +7,7 @@ from .models import Genre, Tag, ContentWarning, AgeRating
 # Register your models here.
 @admin.register(Genre)
 class GenreAdmin(DraggableMPTTAdmin):
+    mptt_indent_field = "name"
     list_display = ('name', 'slug', 'hierarchy', 'status', 'parent')
     list_display_links = ('name', )
     mptt_level_indent = 5

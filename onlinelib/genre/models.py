@@ -39,7 +39,7 @@ class Genre(mptt_models.MPTTModel):
 
 
     class MPTTMeta:
-        order_insertion_by = ('name', )
+        order_insertion_by = ('id', )
 
 
     def __str__(self):
