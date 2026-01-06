@@ -4,7 +4,12 @@ from django.urls import reverse
 from genre.models import Genre, Tag, AgeRating, ContentWarning
 from author.models import Author
 
-# Create your models here.
+
+class ActiveManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Book.StatusType.AVAILABLE)
+
+
 class Book(models.Model):
     title = models.CharField(max_length=255, verbose_name="Название")
     original_title = models.CharField(max_length=255, blank=True, null=True,
@@ -26,19 +31,21 @@ class Book(models.Model):
         AVAILABLE = 'available', 'Активная'
         UNAVAILABLE = 'unavailable', 'Неактивная'
 
-
     status = models.CharField(max_length=255, choices=StatusType,
                               default=StatusType.AVAILABLE, verbose_name='Статус')
     authors = models.ManyToManyField(Author, verbose_name='Авторы',
-                                     related_name='books')
+                                     related_name='books', null=True)
     genres = models.ManyToManyField(Genre, verbose_name='Жанры',
-                                    related_name='books')
+                                    related_name='books', null=True)
     tags = models.ManyToManyField(Tag, verbose_name='Теги',
-                                  related_name='books')
+                                  related_name='books', null=True)
     age_rating = models.ForeignKey(AgeRating, on_delete=models.SET_NULL, null=True,
                                    verbose_name='Возрастной рейтинг', related_name='books')
     warnings = models.ManyToManyField(ContentWarning, verbose_name='Предупреждения',
-                                      related_name='books')
+                                      related_name='books', null=True)
+
+    objects = models.Manager()
+    active = ActiveManager()
 
     class Meta:
         verbose_name = "Книга"
@@ -52,7 +59,13 @@ class Book(models.Model):
         return reverse('book-page', kwargs={ 'book_slug': self.slug })
 
     # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.title)
+    #     genres = self.genres.all()
+    #     res = []
+    #     for genre in genres:
+    #         res += get_all_parent(genre.parent)
+    #
+    #     res = set(res)
+    #     self.genres.add(*res)
     #     super().save(*args, **kwargs)
 
 
