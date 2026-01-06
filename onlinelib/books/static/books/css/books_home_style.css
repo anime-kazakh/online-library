@@ -1,12 +1,36 @@
 .body-layout {
     margin: 3em;
     display: grid;
-    grid-template-rows: min-content min-content;
+    grid-template-areas: "sidebar body";
+    grid-template-columns: min-content 1fr;
+}
+
+.side-panel{
+    grid-area: sidebar;
+    position: static;
+}
+
+.genre-check {
+    height: 9em; /* Фиксированная высота */
+    /*width: min-content;*/
+    overflow-y: auto; /* Вертикальная прокрутка при необходимости */
+    overflow-x: hidden;
+}
+
+.genre-check, .tag-check, .author-check {
+    height: 150px; /* Фиксированная высота */
+    /*width: min-content;*/
+    overflow-y: auto; /* Вертикальная прокрутка при необходимости */
+    overflow-x: hidden;
+}
+
+.genre-check input, .tag-check input, .author-check input {
+    height: min-content;
 }
 
 .books {
     width: 100%;
-    margin 1em;
+    margin: 1em;
     border-collapse: collapse;
     text-align: center;
 }

@@ -9,10 +9,14 @@
 
 {% block content %}
 <div class="body-layout">
-    <div class="filters">
-
-    </div>
-    <table class="books">
+    <aside class="side-panel">
+        <form method="GET">
+            {{ filter.form.as_div }}
+            <input type="submit"/>
+        </form>
+    </aside>
+    <main class="books-list">
+        <table class="books">
         <thead>
             <tr>
                 <th>Название книги</th>
@@ -22,7 +26,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for book in books %}
+            {% for book in filter.qs %}
             <tr>
 
                 <td>
@@ -49,5 +53,6 @@
             {% endfor %}
         </tbody>
     </table>
+    </main>
 </div>
 {% endblock %}
