@@ -1,14 +1,37 @@
 from django.shortcuts import render
+from django.views.generic import ListView
 
+from genre.models import Genre
 from .forms import BookForm, FileForm, LanguageForm
 from .models import Book, Files
+from .filters import BookFilter
 
-# Create your views here.
-def index(request):
-    data = {
-        'books': Book.objects.filter(status='available')
+
+class BookHome(ListView):
+    model = Book
+    queryset = Book.active.all()
+    # Default <app-name>/<model-name>_list.html
+    template_name = 'books/index.html'
+    # Default object_list
+    context_object_name = 'books'
+    # For some extra context
+    extra_context = {
+        'genres': Genre.objects.all()
     }
-    return render(request, 'books/index.html', context=data)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        flt = context['filter'] = BookFilter(self.request.GET,
+                                       queryset=context['books'])
+
+        return context
+
 
 def book_page(request, book_slug):
     book = Book.objects.get(slug=book_slug)
