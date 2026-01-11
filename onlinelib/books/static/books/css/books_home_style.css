@@ -1,5 +1,5 @@
 .body-layout {
-    margin: 3em;
+    margin: 1em;
     display: grid;
     grid-template-areas: "sidebar body";
     grid-template-columns: min-content 1fr;
@@ -10,22 +10,29 @@
     position: static;
 }
 
-.genre-check {
-    height: 9em; /* Фиксированная высота */
-    /*width: min-content;*/
-    overflow-y: auto; /* Вертикальная прокрутка при необходимости */
-    overflow-x: hidden;
+.side-panel form>div {
+    margin: 1em 0;
 }
 
 .genre-check, .tag-check, .author-check {
-    height: 150px; /* Фиксированная высота */
-    /*width: min-content;*/
-    overflow-y: auto; /* Вертикальная прокрутка при необходимости */
+    height: 9em;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
 .genre-check input, .tag-check input, .author-check input {
     height: min-content;
+}
+
+.filter-submit-button {
+    width: 100%;
+    height: 2em;
+    margin: 1em 0;
+    background-color: #407A55;
+    color: white;
+    border-radius: 1em;
+    padding: 0;
+    border: 0;
 }
 
 .books {

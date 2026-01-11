@@ -12,7 +12,7 @@
     <aside class="side-panel">
         <form method="GET">
             {{ filter.form.as_div }}
-            <input type="submit"/>
+            <input class="filter-submit-button" type="submit" value="Применить">
         </form>
     </aside>
     <main class="books-list">
@@ -42,9 +42,9 @@
                     {% endif %}
                 </td>
                 <td>
-                    {{% for author in book.authors.all %}
+                    {% for author in book.authors.all %}
                     {{ author.full_name }}
-                    {% endfor %}}
+                    {% endfor %}
                 </td>
                 <td>
                     {{ book.views_count }}
