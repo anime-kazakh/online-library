@@ -1,20 +1,20 @@
-from django.shortcuts import render
-from django.db.models import Q
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.views.generic import ListView
 
 from .models import Genre
 from .forms import GenreForm
 
-# Create your views here.
-def index(request):
-    data = {
-        'genres': Genre.objects.filter(Q(hierarchy=Genre.HierarchyType.ROOT) |
-                                       Q(hierarchy=Genre.HierarchyType.GROUP) |
-                                       Q(hierarchy=Genre.HierarchyType.GENERAL))
-    }
-    return render(request, 'genre/index.html', context=data)
+
+class GenreHome(ListView):
+    model = Genre
+    template_name = 'genre/index.html'
+    context_object_name = 'genres'
+    queryset = Genre.main_level.all()
+
 
 def genre_page(request, genre_slug):
-    return render(request, 'genre/index.html')
+    return redirect(reverse('books-home', query={'genres': genre_slug}))
 
 def add_genre(request):
     if request.method == 'POST':
