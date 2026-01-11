@@ -1,9 +1,9 @@
-from django.shortcuts import render
-from django.views.generic import ListView
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, DetailView
 
 from genre.models import Genre
 from .forms import BookForm, FileForm, LanguageForm
-from .models import Book, Files
+from .models import Book
 from .filters import BookFilter
 
 
@@ -19,29 +19,22 @@ class BookHome(ListView):
         'genres': Genre.objects.all()
     }
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-
-        return queryset
-
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-
-        flt = context['filter'] = BookFilter(self.request.GET,
+        context['filter'] = BookFilter(self.request.GET,
                                        queryset=context['books'])
-
         return context
 
 
-def book_page(request, book_slug):
-    book = Book.objects.get(slug=book_slug)
-    book.views_count = book.views_count + 1
-    book.save()
-    data = {
-        'book': book,
-        'files': Files.objects.filter(book=book)
-    }
-    return render(request, 'books/book_page.html', context=data)
+class BookPage(DetailView):
+    model = Book
+    template_name = 'books/book_page.html'
+    slug_url_kwarg = 'book_slug'
+    context_object_name = 'book'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Book.active, slug=self.kwargs[self.slug_url_kwarg])
+
 
 def add_book(request):
     if request.method == 'POST':
