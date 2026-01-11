@@ -1,8 +1,18 @@
 from django.db import models
+from django.db.models import Q
 from mptt import models as mptt_models
 from django.urls import reverse
 
-# Create your models here.
+
+class MainLevelManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            Q(hierarchy=Genre.HierarchyType.ROOT) |
+            Q(hierarchy=Genre.HierarchyType.GROUP) |
+            Q(hierarchy=Genre.HierarchyType.GENERAL)
+        )
+
+
 class Genre(mptt_models.MPTTModel):
     name = models.CharField(max_length=255, blank=False, null=False,
                              unique=True, verbose_name="Жанр")
@@ -32,6 +42,9 @@ class Genre(mptt_models.MPTTModel):
                                         null=True, blank=True,
                                         related_name='children', related_query_name='child',
                                         verbose_name='Родитель')
+
+    objects = models.Manager()
+    main_level = MainLevelManager()
 
     class Meta:
         verbose_name = "Жанр"
