@@ -34,15 +34,15 @@ class Book(models.Model):
     status = models.CharField(max_length=255, choices=StatusType,
                               default=StatusType.AVAILABLE, verbose_name='Статус')
     authors = models.ManyToManyField(Author, verbose_name='Авторы',
-                                     related_name='books', null=True)
+                                     related_name='books', null=True, blank=True)
     genres = models.ManyToManyField(Genre, verbose_name='Жанры',
                                     related_name='books', null=True)
     tags = models.ManyToManyField(Tag, verbose_name='Теги',
-                                  related_name='books', null=True)
+                                  related_name='books', null=True, blank=True)
     age_rating = models.ForeignKey(AgeRating, on_delete=models.SET_NULL, null=True,
                                    verbose_name='Возрастной рейтинг', related_name='books')
     warnings = models.ManyToManyField(ContentWarning, verbose_name='Предупреждения',
-                                      related_name='books', null=True)
+                                      related_name='books', null=True, blank=True)
 
     objects = models.Manager()
     active = ActiveManager()
