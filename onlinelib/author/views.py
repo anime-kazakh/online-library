@@ -1,20 +1,22 @@
 from django.shortcuts import render
+from django.views.generic import ListView, DetailView
 
 from .models import Author
 from .forms import AuthorForm
 
-# Create your views here.
-def index(request):
-    data = {
-        'authors': Author.objects.all(),
-    }
-    return render(request, 'author/index.html', context=data)
 
-def author_page(request, author_slug):
-    data = {
-        'author': Author.objects.get(slug=author_slug)
-    }
-    return render(request, 'author/author_page.html', context=data)
+class AuthorHome(ListView):
+    model = Author
+    template_name = 'author/index.html'
+    context_object_name = 'authors'
+
+
+class AuthorPage(DetailView):
+    model = Author
+    template_name = 'author/author_page.html'
+    context_object_name = 'author'
+    slug_url_kwarg = 'author_slug'
+
 
 def add_author(request):
     if request.method == 'POST':
