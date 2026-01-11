@@ -13,9 +13,6 @@ class GenreHome(ListView):
     queryset = Genre.main_level.all()
 
 
-def genre_page(request, genre_slug):
-    return redirect(reverse('books-home', query={'genres': genre_slug}))
-
 def add_genre(request):
     if request.method == 'POST':
         form = GenreForm(request.POST)

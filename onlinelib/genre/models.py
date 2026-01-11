@@ -59,7 +59,7 @@ class Genre(mptt_models.MPTTModel):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('genre-page', kwargs={ 'genre_slug': self.slug })
+        return reverse('books-home', query={'genres': self.slug})
 
 
 class Tag(models.Model):
