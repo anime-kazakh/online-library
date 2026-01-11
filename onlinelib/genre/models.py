@@ -77,6 +77,9 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('books-home', query={'tags': self.slug})
+
 
 class ContentWarning(models.Model):
     name = models.CharField(max_length=255, blank=False,

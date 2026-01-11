@@ -23,7 +23,13 @@
 }
 
 .book-information {
-    margin: 2em;
+    margin: 0 2em;
+}
+
+.age-rating {
+    color: gray;
+    border: grey solid 2px;
+    border-radius: 3px;
 }
 
 .book-information h2 {

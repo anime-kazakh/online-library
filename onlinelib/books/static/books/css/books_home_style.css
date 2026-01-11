@@ -35,6 +35,10 @@
     border: 0;
 }
 
+.books-list {
+    margin: 1em 2em;
+}
+
 .books {
     width: 100%;
     margin: 1em;

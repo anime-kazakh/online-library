@@ -19,16 +19,56 @@
             </div>
             <div class="book-information">
 
+                <p><span class="age-rating">{{ book.age_rating.min_age }}+</span></p>
+
                 {% if book.original_title %}
                 <h2>Оригинальное название:</h2>
                 <p>{{ book.original_title }}</p>
                 {% endif %}
+
+                <h2>Авторы:</h2>
+                <p>
+                    {% for author in book.authors.all %}
+                        <span><a href="{{ author.get_absolute_url }}">{{ author.full_name }}</a></span>
+                        {% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                        <span>Автор неизвестен</span>
+                    {% endfor %}
+                </p>
 
                 <h2>Год публикации:</h2>
                 <p>{{ book.publication_year }}</p>
 
                 <h2>Описание:</h2>
                 <p>{{ book.description|linebreaks|safe }}</p>
+
+                <h2>Жанры:</h2>
+                <p>
+                    {% for genre in book.genres.all %}
+                        <span><a href="{{ genre.get_absolute_url }}">{{ genre.name }}</a></span>
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+
+                {% for tag in book.tags.all %}
+                    {% if forloop.first %}
+                        <h2>Теги:</h2>
+                        <p>
+                    {% endif %}
+                    <span><a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a></span>
+                    {% if not forloop.last %}, {% endif %}
+                    {% if forloop.last %}
+                        </p>
+                    {% endif %}
+                {% endfor %}
+
+                {% for warning in book.warnings.all %}
+                    {% if forloop.first %}
+                        <h2>Предупреждения:</h2>
+                    {% endif %}
+
+                    <p>❗{{ warning.name }}❗</p>
+                {% endfor %}
 
             </div>
         </div>
