@@ -1,5 +1,5 @@
-from django.shortcuts import render
 from django.db.models import Q
+from django.views.generic import TemplateView
 
 from .forms import SearchForm
 
@@ -7,28 +7,30 @@ from author.models import Author
 from books.models import Book
 from genre.models import Genre
 
-def index(request):
-    data = {  }
-    return render(request, 'home/index.html', context=data)
 
-def about(request):
-    data = {}
-    return render(request, 'home/about.html', context=data)
+class Home(TemplateView):
+    template_name = 'home/index.html'
 
-def search(request):
-    data = {}
-    if 'query' in request.GET:
-        form = SearchForm(request.GET)
-        if form.is_valid():
-            query = form.cleaned_data['query']
 
-            data['authors'] = Author.objects.filter(full_name__icontains=query)
-            data['books'] = Book.objects.filter(Q(title__icontains=query) |
-                                                Q(original_title__icontains=query))
-            data['genres'] = Genre.objects.filter(name__icontains=query)
-    else:
-        form = SearchForm()
+class About(TemplateView):
+    template_name = 'home/about.html'
 
-    data['form'] = form
 
-    return render(request, 'home/search.html', context=data)
+class Search(TemplateView):
+    template_name = 'home/search.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'query' in self.request.GET:
+            form = SearchForm(self.request.GET)
+            if form.is_valid():
+                query = form.cleaned_data['query']
+
+                context['authors'] = Author.objects.filter(full_name__icontains=query)
+                context['books'] = Book.objects.filter(Q(title__icontains=query) |
+                                                       Q(original_title__icontains=query))
+                context['genres'] = Genre.objects.filter(name__icontains=query)
+        else: form = SearchForm()
+        context['form'] = form
+
+        return context
