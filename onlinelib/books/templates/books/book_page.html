@@ -73,7 +73,6 @@
             </div>
         </div>
     </div>
-    {% if files %}
     <div class="book-layout__book-files">
         <table class="book-files">
             <thead>
@@ -85,17 +84,23 @@
                 </tr>
             </thead>
             <tbody>
-                {% for file in files %}
+                {% for file in book.files.all %}
                 <tr>
                     <td>{{ file.book_file.name }}</td>
                     <td>{{ file.language }}</td>
                     <td>{{ file.book_file.size|filesizeformat }}</td>
                     <td><button>Скачать</button></td>
                 </tr>
+                {% empty %}
+                <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    {% endif %}
 </div>
 {% endblock content %}
