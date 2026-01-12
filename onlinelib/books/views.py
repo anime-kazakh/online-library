@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, FormView
 
 from genre.models import Genre
 from .forms import BookForm, FileForm, LanguageForm
@@ -32,42 +33,39 @@ class BookPage(DetailView):
     slug_url_kwarg = 'book_slug'
     context_object_name = 'book'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset.prefetch_related('files')
+        return queryset
+
     def get_object(self, queryset=None):
         return get_object_or_404(Book.active, slug=self.kwargs[self.slug_url_kwarg])
 
 
-def add_book(request):
-    if request.method == 'POST':
-        form = BookForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-    else:
-        form = BookForm()
-    data = {
-        'form': form,
-    }
-    return render(request, 'books/add_record.html', context=data)
+class AddBook(FormView):
+    form_class = BookForm
+    template_name = 'books/add_record.html'
+    success_url = reverse_lazy('books-home')
 
-def add_file(request):
-    if request.method == 'POST':
-        form = FileForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-    else:
-        form = FileForm()
-    data = {
-        'form': form,
-    }
-    return render(request, 'books/add_record.html', context=data)
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
-def add_language(request):
-    if request.method == 'POST':
-        form = LanguageForm(request.POST)
-        if form.is_valid():
-            form.save()
-    else:
-        form = LanguageForm()
-    data = {
-        'form': form,
-    }
-    return render(request, 'books/add_record.html', context=data)
+
+class AddFile(FormView):
+    form_class = FileForm
+    template_name = 'books/add_record.html'
+    # success_url = reverse_lazy('books-home')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+
+class AddLanguage(FormView):
+    form_class = LanguageForm
+    template_name = 'books/add_record.html'
+    success_url = reverse_lazy('books-home')
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)

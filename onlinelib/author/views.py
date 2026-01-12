@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, FormView
 
 from .models import Author
 from .forms import AuthorForm
@@ -18,14 +18,11 @@ class AuthorPage(DetailView):
     slug_url_kwarg = 'author_slug'
 
 
-def add_author(request):
-    if request.method == 'POST':
-        form = AuthorForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-    else: form = AuthorForm()
+class AddAuthor(FormView):
+    form_class = AuthorForm
+    template_name = 'author/add_author.html'
+    success_url = reverse_lazy('author-home')
 
-    data = {
-        'form': form,
-    }
-    return render(request, 'author/add_author.html', context=data)
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
