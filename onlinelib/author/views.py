@@ -1,4 +1,5 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .models import Author
 from .forms import AuthorForm
@@ -20,3 +21,15 @@ class AuthorPage(DetailView):
 class AddAuthor(CreateView):
     form_class = AuthorForm
     template_name = 'author/add_author.html'
+
+
+class UpdateAuthor(UpdateView):
+    model = Author
+    form_class = AuthorForm
+    template_name = 'author/add_author.html'
+
+
+class DeleteAuthor(DeleteView):
+    model = Author
+    template_name = 'author/delete_confirm.html'
+    success_url = reverse_lazy('author-home')

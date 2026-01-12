@@ -1,10 +1,10 @@
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from genre.models import Genre
 from .forms import BookForm, FileForm, LanguageForm
-from .models import Book
+from .models import Book, Files, Language
 from .filters import BookFilter
 
 
@@ -44,7 +44,25 @@ class BookPage(DetailView):
 
 class AddBook(CreateView):
     form_class = BookForm
+    # We can create CreateView without form
+    # model = Book
+    # fields = '__all__'
+    # fields = ('name', 'slug', ...)
     template_name = 'books/add_record.html'
+
+
+class UpdateBook(UpdateView):
+    model = Book
+    fields = ('title', 'original_title', 'cover_image', 'description',
+              'publication_year', 'status', 'authors', 'genres',
+              'tags', 'age_rating', 'warnings')
+    template_name = 'books/add_record.html'
+
+
+class DeleteBook(DeleteView):
+    model = Book
+    template_name = 'books/delete_confirm.html'
+    success_url = reverse_lazy('books-home')
 
 
 class AddFile(CreateView):
@@ -52,7 +70,32 @@ class AddFile(CreateView):
     template_name = 'books/add_record.html'
 
 
+class UpdateFile(UpdateView):
+    model = Files
+    fields = ('book', 'book_file', 'language')
+    template_name = 'books/add_record.html'
+
+
+class DeleteFile(DeleteView):
+    model = Files
+    template_name = 'books/delete_confirm.html'
+    success_url = reverse_lazy('books-home')
+
+
 class AddLanguage(CreateView):
     form_class = LanguageForm
     template_name = 'books/add_record.html'
+    success_url = reverse_lazy('books-home')
+
+
+class UpdateLanguage(UpdateView):
+    model = Language
+    fields = ('name', 'code')
+    template_name = 'books/add_record.html'
+    success_url = reverse_lazy('books-home')
+
+
+class DeleteLanguage(DeleteView):
+    model = Language
+    template_name = 'books/delete_confirm.html'
     success_url = reverse_lazy('books-home')
