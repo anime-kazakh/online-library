@@ -1,5 +1,4 @@
-from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import ListView, DetailView, CreateView
 
 from .models import Author
 from .forms import AuthorForm
@@ -18,11 +17,6 @@ class AuthorPage(DetailView):
     slug_url_kwarg = 'author_slug'
 
 
-class AddAuthor(FormView):
+class AddAuthor(CreateView):
     form_class = AuthorForm
     template_name = 'author/add_author.html'
-    success_url = reverse_lazy('author-home')
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
