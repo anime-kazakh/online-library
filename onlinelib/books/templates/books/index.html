@@ -35,16 +35,10 @@
                     </a>
                 </td>
                 <td>
-                    {% if book.original_title %}
-                        {{ book.original_title }}
-                    {% else %}
-                        Нет
-                    {% endif %}
+                    {{ book.original_title|default_if_none:"Нет" }}
                 </td>
                 <td>
-                    {% for author in book.authors.all %}
-                    {{ author.full_name }}
-                    {% endfor %}
+                    {{ book.authors.all|join:', ' }}
                 </td>
                 <td>
                     {{ book.views_count }}
