@@ -1,5 +1,5 @@
 from django.db import models
-from django.urls import reverse
+from django.urls import reverse_lazy
 
 from genre.models import Genre, Tag, AgeRating, ContentWarning
 from author.models import Author
@@ -56,7 +56,7 @@ class Book(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('book-page', kwargs={ 'book_slug': self.slug })
+        return reverse_lazy('book-page', kwargs={ 'book_slug': self.slug })
 
     # def save(self, *args, **kwargs):
     #     genres = self.genres.all()
@@ -85,7 +85,7 @@ class Language(models.Model):
 
 class Files(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE,
-                             verbose_name="Книга")
+                             verbose_name="Книга", related_name='files')
     book_file = models.FileField(
         upload_to='books/files/%Y/%m/%d/',
         default=None,
@@ -106,3 +106,6 @@ class Files(models.Model):
 
     def __str__(self):
         return self.book_file.name
+
+    def get_absolute_url(self):
+        return self.book.get_absolute_url()
