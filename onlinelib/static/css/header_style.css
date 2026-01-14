@@ -16,14 +16,10 @@
     grid-template-columns: min-content 1fr min-content;
 }
 
-.navigation__logo {
-}
-
-.logo {
-    max-height: 100%;
-    height: 2.5rem;
-    width: auto;
-    object-fit: contain;
+.navigation__logo * {
+    font-family: "AA Stetica", sans-serif;
+    font-weight: 900;
+    font-size: 2.5em;
 }
 
 .navigation__menu {
@@ -38,7 +34,7 @@
 }
 
 .menu__tab {
-    margin: 0, 10em, 0;
+    margin: 0 1em;
 }
 
 .page-layout__header a {
