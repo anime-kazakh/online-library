@@ -2,22 +2,26 @@ from django.db.models import Q
 from django.views.generic import TemplateView
 
 from .forms import SearchForm
+from .utils import DataMixin
 
 from author.models import Author
 from books.models import Book
 from genre.models import Genre
 
 
-class Home(TemplateView):
+class Home(DataMixin, TemplateView):
     template_name = 'home/index.html'
+    title_page = 'ONLINELIB'
 
 
-class About(TemplateView):
+class About(DataMixin, TemplateView):
     template_name = 'home/about.html'
+    title_page = 'О сайте'
 
 
-class Search(TemplateView):
+class Search(DataMixin, TemplateView):
     template_name = 'home/search.html'
+    title_page = 'Поиск'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
