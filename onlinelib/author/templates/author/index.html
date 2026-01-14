@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Авторы{% endblock title %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 
 {% block style %}
 <link type="text/css" href="{% static 'author/css/author_home_style.css' %}" rel="stylesheet">

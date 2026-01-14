@@ -2,7 +2,9 @@
 {% load static %}
 {% load mptt_tags %}
 
-{% block title %}Каталог{% endblock title %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
 
 {% block style %}
 <link type="text/css" href="{% static 'genre/css/genre_home_style.css' %}" rel="stylesheet">
