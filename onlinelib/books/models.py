@@ -58,16 +58,6 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('book-page', kwargs={ 'book_slug': self.slug })
 
-    # def save(self, *args, **kwargs):
-    #     genres = self.genres.all()
-    #     res = []
-    #     for genre in genres:
-    #         res += get_all_parent(genre.parent)
-    #
-    #     res = set(res)
-    #     self.genres.add(*res)
-    #     super().save(*args, **kwargs)
-
 
 class Language(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False,
