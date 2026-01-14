@@ -37,28 +37,29 @@
 
 .books-list {
     margin: 1em 2em;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-auto-rows: min-content;
 }
 
-.books {
-    width: 100%;
-    margin: 1em;
-    border-collapse: collapse;
-    text-align: center;
+.book-card {
+    margin: 1em ;
 }
 
-.books th {
-    padding: 0.5em;
-    background-color: lightblue;
+.book-card__cover-image {
+    width: 12em;
 }
 
-.books td {
-    padding: 0.5em;
+.book-card__titles {
+
 }
 
-.books tbody tr:nth-child(odd) {
-    background-color: white;
+.title {
+    margin: 0 0;
 }
 
-.books tbody tr:nth-child(even) {
-    background-color: lightblue;
+.original-title {
+    font-size: 0.75em;
+    color: grey;
+    margin: 0 0;
 }
