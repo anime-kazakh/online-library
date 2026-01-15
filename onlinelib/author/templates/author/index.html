@@ -12,27 +12,26 @@
 {% block content %}
 <div class="authors-layout">
     <div class="filters">
+        {% comment %}
         <a class="author-form" href="{% url 'add-author' %}">Новая запись</a>
+        {% endcomment %}
     </div>
-    <table class="authors">
-        <thead>
-            <tr>
-                <th>Полное имя</th>
-                <th>Загруженные книги</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for author in authors %}
-            <tr>
-                <td>
-                    <a href="{{ author.get_absolute_url }}">
-                        {{ author.full_name }}
-                    </a>
-                </td>
-                <td>{{ author.books.count }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="authors-list">
+    {% for author in authors %}
+        <div class="author-card">
+            <div class="author-card__inf-panel">
+                <p>Книг на сайте: {{ author.books.count }}</p>
+            </div>
+            <div class="author-card__article">
+                <img class="article__photo" src="{{ author.photo.url }}">
+                <span class="article__text">
+                    <h2>{{ author.full_name }}</h2>
+                    <p>{{ author.bio|linebreaks|truncatewords:40 }}</p>
+                    <p><a href="{{ author.get_absolute_url }}">Чиать дальше...</a></p>
+                </span>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
 </div>
 {% endblock content %}

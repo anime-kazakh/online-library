@@ -7,32 +7,32 @@
 .filters {
 }
 
-.authors {
-    width: 100%;
-    margin 1em;
-    border-collapse: collapse;
-    text-align: center;
+.authors-list {
+    margin: 0 4em;
 }
 
-.authors th {
-    padding: 0.5em;
-    background-color: lightblue;
+.author-card {
+    margin: 2em 0;
 }
 
-.authors td {
-    padding: 0.5em;
+.author-card__inf-panel {
+    background-color: lightgray;
+    padding: 0.5em 1em;
 }
 
-.authors tbody tr:nth-child(odd) {
-    background-color: white;
+.author-card__inf-panel p {
+    margin: 0;
 }
 
-.authors tbody tr:nth-child(even) {
-    background-color: lightblue;
+.author-card__article {
+    display: grid;
+    grid-template-columns: min-content 1fr;
 }
 
-.author-form {
-    background-color: black;
-    color: white;
-    border-radius: 1em;
+.article__photo {
+    width: 10em;
+}
+
+.article__text {
+    margin: 0 2em;
 }
