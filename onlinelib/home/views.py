@@ -1,3 +1,5 @@
+from random import randint
+
 from django.db.models import Q
 from django.views.generic import TemplateView
 
@@ -12,6 +14,13 @@ from genre.models import Genre
 class Home(DataMixin, TemplateView):
     template_name = 'home/index.html'
     title_page = 'ONLINELIB'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['books_mostpop'] = Book.objects.order_by('views_count')[:5]
+        rand_pk = randint(1, Book.objects.count())
+        context['rand_book'] = Book.objects.get(pk=rand_pk)
+        return context
 
 
 class About(DataMixin, TemplateView):

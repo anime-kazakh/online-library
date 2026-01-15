@@ -1,0 +1,63 @@
+h1 {
+    font-size: 2em;
+    margin: 1em 2em;
+}
+
+.most-popular {
+    display: flex;
+    margin: 1em auto;
+}
+
+.most-popular__book-card {
+    display: grid;
+    margin: 0 1.5em;
+}
+
+.most-popular__cover-image {
+    width: 10em;
+    margin: 0 auto;
+}
+
+.most-popular__titles {
+    margin: 0 0.25em;
+}
+
+.most-popular__title {
+    margin: 0;
+}
+
+.most-popular__original-title {
+    margin: 0;
+    font-size: 0.75em;
+    color: gray;
+}
+
+.rand-book {
+    margin: 1em 3em;
+}
+
+.rand-book__inf-panel {
+    background-color: lightgray;
+    padding: 0.5em 2em;
+}
+
+.rand-book__inf-panel p {
+    margin: 0;
+}
+
+.rand-book__article {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+}
+
+.rand-book__cover-image {
+    width: 12.5em;
+}
+
+.rand-book__text {
+    margin: 0 1em;
+}
+
+.rand-book__original-title {
+    color: grey;
+}
