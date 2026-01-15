@@ -8,9 +8,9 @@
         <div class="navigation__menu">
             <nav class="menu">
                 {% for item in menu %}
-                    <div class="menu__tab">
+                    <span class="menu__tab">
                         <a class="menu__item" href="{% url item.url_name %}">{{ item.title }}</a>
-                    </div>
+                    </span>
                 {% endfor %}
             </nav>
         </div>

@@ -28,9 +28,10 @@
 
 .menu {
     align-items: center;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    margin: 0 30% 0;
+    margin: 0 auto;
+    display: flex;
+    /*grid-template-columns: repeat(auto-fit, minmax(10px, min-content));*/
+
 }
 
 .menu__tab {
