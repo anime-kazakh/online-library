@@ -21,6 +21,7 @@ class BookHome(DataMixin, ListView):
         'genres': Genre.objects.all()
     }
     title_page = "Книги"
+    paginate_by = 20
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
