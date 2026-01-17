@@ -1,0 +1,27 @@
+.list-pages {
+    margin: 4em 2em;
+    display: flex;
+    justify-content: center;
+}
+
+.page-num {
+    padding: 0.5em 1em;
+    margin: 0 0.5em;
+}
+
+.page-num-unselected:hover {
+    background-color: #407A55;
+    border-radius: 1em;
+    color: white;
+}
+
+.page-num a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.page-num-selected {
+    background-color: #022e0b;
+    border-radius: 1em;
+    color: white;
+}
