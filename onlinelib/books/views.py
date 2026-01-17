@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from django_filters.views import FilterView
+
 from home.utils import DataMixin
 from genre.models import Genre
 from .forms import BookForm, FileForm, LanguageForm
@@ -21,13 +23,17 @@ class BookHome(DataMixin, ListView):
         'genres': Genre.objects.all()
     }
     title_page = "Книги"
-    paginate_by = 20
+    paginate_by = 20 # Слайсает и невозможно пользоваться фильтром
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['filter'] = BookFilter(self.request.GET,
-                                       queryset=context['books'])
+                                       queryset=self.get_queryset())
         return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return BookFilter(self.request.GET, queryset=queryset).qs
 
 
 class BookPage(DataMixin, DetailView):
