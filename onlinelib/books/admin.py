@@ -1,13 +1,15 @@
 from django.contrib import admin, messages
-from django.db.models.functions import Length
+from django.utils.safestring import mark_safe
+# from django.db.models.functions import Length
 from .models import Book, Language, Files
 
 # Register your models here.
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('title', 'original_title',
-                    'slug', 'upload_date', 'views_count',
-                    'status', 'description_info')
+    list_display = ('id', 'title', 'original_title',
+                    'slug', 'post_cover', 'upload_date', 'views_count',
+                    'status', )
+                    # 'status', 'description_info')
     list_display_links = ('title', )
     readonly_fields = ('views_count', )
     prepopulated_fields = {'slug': ('title',)}
@@ -18,10 +20,15 @@ class BookAdmin(admin.ModelAdmin):
     actions = ('set_status_available', 'set_status_unavailable')
     search_fields = ('title', 'original_title')
     list_filter = ('status', 'authors', 'genres', 'tags', 'age_rating')
+    save_on_top = True
 
-    @admin.display(description="Длина описания (символы)", ordering=Length("description"))
-    def description_info(self, book: Book):
-        return len(book.description)
+    @admin.display(description='Обложка')
+    def post_cover(self, book:Book):
+        return mark_safe(f'<img src="{book.cover_image.url}" width="50" height="50" />')
+
+    # @admin.display(description="Длина описания (символы)", ordering=Length("description"))
+    # def description_info(self, book: Book):
+    #     return len(book.description)
 
     @admin.action(description="Опубликовать записи")
     def set_status_available(self, request, queryset):
