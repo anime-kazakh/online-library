@@ -4,7 +4,7 @@
     <nav class="list-pages">
         {% if page_obj.has_previous %}
             <span class="page-num page-num-unselected">
-                <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+                <a href="{% querystring page=page_obj.previous_page_number %}">&lt;</a>
             </span>
         {% endif %}
         {% elided_page_range paginator page_obj.number 2 1 as page_range %}
@@ -20,13 +20,13 @@
             </span>
             {% else %}
             <span class="page-num page-num-unselected">
-                <a href="?page={{ p }}">{{ p }}</a>
+                <a href="{% querystring page=p %}">{{ p }}</a>
             </span>
             {% endif %}
         {% endfor %}
         {% if page_obj.has_next %}
             <span class="page-num page-num-unselected">
-                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                <a href="{% querystring page=page_obj.next_page_number %}">&gt;</a>
             </span>
         {% endif %}
     </nav>
