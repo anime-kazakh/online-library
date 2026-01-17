@@ -6,7 +6,8 @@
 {% endblock title %}
 
 {% block style %}
-<link type="text/css" href="{% static 'author/css/author_home_style.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'css/navigation_style.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'author/css/author_home_style.css' %}" rel="stylesheet">
 {% endblock style %}
 
 {% block content %}
@@ -35,3 +36,7 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block navigation %}
+    {% include "includes/navigation.html" %}
+{% endblock navigation %}

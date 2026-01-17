@@ -11,6 +11,7 @@ class AuthorHome(DataMixin, ListView):
     template_name = 'author/index.html'
     context_object_name = 'authors'
     title_page = 'Авторы'
+    paginate_by = 5
 
 
 class AuthorPage(DataMixin, DetailView):
