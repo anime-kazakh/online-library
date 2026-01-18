@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'author.apps.AuthorConfig',
     'genre.apps.GenreConfig',
     'common.apps.CommonConfig',
+    'users',
 ]
 
 MIDDLEWARE = [

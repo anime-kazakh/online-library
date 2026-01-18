@@ -28,6 +28,7 @@ urlpatterns = [
     path('books/', include('books.urls')),
     path('authors/', include('author.urls')),
     path('genres/', include('genre.urls')),
+    path('users/', include('users.urls', namespace='users')),
 ] + debug_toolbar_urls()
 
 admin.site.site_header = "Панель администрирования"
