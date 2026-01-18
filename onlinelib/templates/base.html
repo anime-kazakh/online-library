@@ -7,8 +7,6 @@
     <title>{% block title %}{% endblock %}</title>
     <link type="text/css" href="{% static 'css/fonts.css' %}" rel="stylesheet">
     <link type="text/css" href="{% static 'css/base_style.css' %}" rel="stylesheet">
-    <link type="text/css" href="{% static 'css/header_style.css' %}" rel="stylesheet">
-    <link type="text/css" href="{% static 'css/footer_style.css' %}" rel="stylesheet">
     {% block style %} {% endblock style %}
 </head>
 <body class="page-layout">
@@ -18,9 +16,28 @@
     А также можно в ручную передавать значения.
     {% include "name_snippet.html" with person="Jane" greeting="Hello" %}
 {% endcomment %}
-{% include "includes/header.html" %}
+
+{% block header %}
+    {% comment %}
+    Если нет необходимости в Header-е то переопределите этот блок в дочернем шаблоне
+    {% endcomment %}
+    <!-- Header block -->
+    <link type="text/css" href="{% static 'css/header_style.css' %}" rel="stylesheet">
+    {% include "includes/header.html" %}
+    <!-- ------------ -->
+{% endblock header %}
+
 {% block content %} {% endblock content %}
 {% block navigation %} {% endblock navigation %}
-{% include "includes/footer.html" %}
+
+{% block footer %}
+    {% comment %}
+    Если нет необходимости в Footer-е то переопределите этот блок в дочернем шаблоне
+    {% endcomment %}
+    <!-- Footer block -->
+    <link type="text/css" href="{% static 'css/footer_style.css' %}" rel="stylesheet">
+    {% include "includes/footer.html" %}
+    <!-- ------------ -->
+{% endblock footer %}
 </body>
 </html>
