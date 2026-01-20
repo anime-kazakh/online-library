@@ -19,5 +19,12 @@
                 {% include "includes/icons/icons8-поиск-50.svg" %}
             </a>
         </div>
+        <div class="navigation__user">
+            {% if user.is_authenticated %}
+                {{ user.username }} | <a class="menu__tab" href="{% url 'users:logout' %}">Выйти</a>
+            {% else %}
+                <a class="menu__tab" href="{% url 'users:login' %}">Войти</a>
+            {% endif %}
+        </div>
     </nav>
 </header>

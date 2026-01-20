@@ -13,7 +13,7 @@
     display: grid;
     column-gap: 1rem;
     /*logo menu search*/
-    grid-template-columns: min-content 1fr min-content;
+    grid-template-columns: min-content 1fr min-content min-content;
 }
 
 .navigation__logo * {
@@ -53,4 +53,11 @@
     fill: white;
     width: 1.5em;
     height: 1.5em;
+}
+
+.navigation__user {
+    align-content: center;
+    box-sizing: border-box;
+    white-space: nowrap;
+    padding: 0.75em;
 }
