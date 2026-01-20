@@ -7,7 +7,7 @@
         </div>
         <div class="navigation__menu">
             <nav class="menu">
-                {% for item in menu %}
+                {% for item in main_menu %}
                     <span class="menu__tab">
                         <a class="menu__item" href="{% url item.url_name %}">{{ item.title }}</a>
                     </span>
