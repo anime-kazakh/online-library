@@ -2,9 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from django_filters.views import FilterView
-
-from home.utils import DataMixin
+from common.utils import DataMixin
 from genre.models import Genre
 from .forms import BookForm, FileForm, LanguageForm
 from .models import Book, Files, Language

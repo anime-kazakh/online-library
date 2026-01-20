@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from home.utils import DataMixin
+from common.utils import DataMixin
 from .models import Genre, Tag, ContentWarning, AgeRating
 from .forms import GenreForm, TagForm, ContentWarningForm, AgeRatingForm
 

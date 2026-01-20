@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.views.generic import TemplateView
 
 from .forms import SearchForm
-from .utils import DataMixin
+from common.utils import DataMixin
 
 from author.models import Author
 from books.models import Book
