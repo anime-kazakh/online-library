@@ -15,7 +15,9 @@
             </nav>
         </div>
         <div class="navigation__search">
-            <a class="menu__item" href="{% url 'search' %}">Поиск</a>
+            <a class="menu__item" href="{% url 'search' %}">
+                {% include "includes/icons/icons8-поиск-50.svg" %}
+            </a>
         </div>
     </nav>
 </header>

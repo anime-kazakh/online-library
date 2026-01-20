@@ -48,3 +48,9 @@
     box-sizing: border-box;
     padding: 0.75em;
 }
+
+.navigation__search svg {
+    fill: white;
+    width: 1.5em;
+    height: 1.5em;
+}
