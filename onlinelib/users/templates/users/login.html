@@ -16,7 +16,12 @@
         <h1 class="main-title">Авторизация</h1>
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
+            <input type="hidden" name="next" value="{{ next }}">
+            <div class="form-error" >{{ form.non_field_errors }}</div>
+            {% for f in form %}
+            <p>{{ f }}</p>
+            <div class="form-error" >{{ f.errors }}</div>
+            {% endfor %}
             <p><button class="submit-button" type="submit">Войти</button></p>
         </form>
     </div>

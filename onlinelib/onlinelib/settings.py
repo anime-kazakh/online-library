@@ -154,3 +154,11 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Auth
+# https://docs.djangoproject.com/en/5.2/ref/settings/#auth
+
+LOGIN_REDIRECT_URL = 'home' # Default: '/accounts/profile/'
+LOGOUT_REDIRECT_URL = 'home' # Default: none
+LOGIN_URL = 'users:login' # Default: 'accounts/login/'

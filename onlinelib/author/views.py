@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -21,20 +22,21 @@ class AuthorPage(DataMixin, DetailView):
     slug_url_kwarg = 'author_slug'
 
 
-class AddAuthor(DataMixin, CreateView):
+class AddAuthor(LoginRequiredMixin, DataMixin, CreateView):
     form_class = AuthorForm
     template_name = 'author/add_author.html'
     title_page = 'Добавление автора'
+    # login_url = 'users:login'
 
 
-class UpdateAuthor(DataMixin, UpdateView):
+class UpdateAuthor(LoginRequiredMixin, DataMixin, UpdateView):
     model = Author
     form_class = AuthorForm
     template_name = 'author/add_author.html'
     title_page = 'Редактирование автора'
 
 
-class DeleteAuthor(DataMixin, DeleteView):
+class DeleteAuthor(LoginRequiredMixin, DataMixin, DeleteView):
     model = Author
     template_name = 'author/delete_confirm.html'
     success_url = reverse_lazy('author-home')

@@ -1,6 +1,8 @@
 from random import randint
 
+# from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+# from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from .forms import SearchForm
@@ -21,6 +23,11 @@ class Home(DataMixin, TemplateView):
         rand_pk = randint(1, Book.objects.count())
         context['rand_book'] = Book.objects.get(pk=rand_pk)
         return context
+
+
+# @login_required(login_url='/users/login/')
+# def about(request):
+#     return render(request, 'home/about.html')
 
 
 class About(DataMixin, TemplateView):
