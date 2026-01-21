@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'genre.apps.GenreConfig',
     'common.apps.CommonConfig',
     'users',
+    'reactions'
 ]
 
 MIDDLEWARE = [
