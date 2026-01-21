@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse_lazy
 
@@ -34,15 +35,17 @@ class Book(models.Model):
     status = models.CharField(max_length=255, choices=StatusType,
                               default=StatusType.AVAILABLE, verbose_name='Статус')
     authors = models.ManyToManyField(Author, verbose_name='Авторы',
-                                     related_name='books', null=True, blank=True)
+                                     related_name='books', blank=True)
     genres = models.ManyToManyField(Genre, verbose_name='Жанры',
-                                    related_name='books', null=True)
+                                    related_name='books', blank=True)
     tags = models.ManyToManyField(Tag, verbose_name='Теги',
-                                  related_name='books', null=True, blank=True)
-    age_rating = models.ForeignKey(AgeRating, on_delete=models.SET_NULL, null=True,
+                                  related_name='books', blank=True)
+    age_rating = models.ForeignKey(AgeRating, on_delete=models.SET_NULL, null=True, blank=True,
                                    verbose_name='Возрастной рейтинг', related_name='books')
     warnings = models.ManyToManyField(ContentWarning, verbose_name='Предупреждения',
-                                      related_name='books', null=True, blank=True)
+                                      related_name='books', blank=True)
+    post_author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL,
+                                    related_name='books', verbose_name='Автор поста')
 
     objects = models.Manager()
     active = ActiveManager()
@@ -85,10 +88,10 @@ class Files(models.Model):
     )
     language = models.ForeignKey(Language, on_delete=models.CASCADE,
                                  verbose_name="Язык")
-    upload_date = models.DateField(auto_now_add=True, blank=False,
-                                   null=False, verbose_name="Дата загрузки")
-    download_count = models.IntegerField(default=0,
-                                         verbose_name="Количество скачиваний")
+    upload_date = models.DateField(auto_now_add=True, verbose_name="Дата загрузки")
+    download_count = models.IntegerField(default=0, verbose_name="Количество скачиваний")
+    post_author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL,
+                                    related_name='files', verbose_name="Автор поста")
 
     class Meta:
         verbose_name = "Файл книги"

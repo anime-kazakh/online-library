@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 
@@ -17,6 +18,9 @@ class Author(models.Model):
         verbose_name="Фотография"
     )
     bio = models.TextField(blank=True, null=True, verbose_name="Биография")
+    upload_date = models.DateField(auto_now_add=True, verbose_name="Время публикации")
+    post_author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL,
+                                    related_name="authors", verbose_name="Автор поста",)
 
     class Meta:
         verbose_name = "Автор"
