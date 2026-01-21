@@ -15,7 +15,7 @@ class BookScoreAdmin(admin.ModelAdmin):
 
 @admin.register(BookComments)
 class BookCommentsAdmin(admin.ModelAdmin):
-    list_display = ('book', 'user', 'post_time', 'comment_count')
+    list_display = ('book', 'user', 'status', 'post_time', 'comment_count')
     list_display_links = ('book', 'user')
     readonly_fields = ('post_time', )
     list_per_page = 20
