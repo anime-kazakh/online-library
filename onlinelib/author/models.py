@@ -19,7 +19,7 @@ class Author(models.Model):
     )
     bio = models.TextField(blank=True, null=True, verbose_name="Биография")
     upload_date = models.DateField(auto_now_add=True, verbose_name="Время публикации")
-    post_author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL,
+    post_author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True,
                                     related_name="authors", verbose_name="Автор поста",)
 
     class Meta:
