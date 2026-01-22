@@ -1,5 +1,7 @@
+from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.db.models import F
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from common.utils import DataMixin
@@ -42,6 +44,14 @@ class BookPage(DataMixin, DetailView):
 
     def get_object(self, queryset=None):
         return get_object_or_404(Book.active, slug=self.kwargs[self.slug_url_kwarg])
+
+
+def file_download(request, file_id):
+    file = get_object_or_404(Files, pk=file_id)
+
+    Files.objects.filter(pk=file_id).update(download_count=F('download_count') + 1)
+
+    return FileResponse(file.book_file.open('rb'), as_attachment=True)
 
 
 class AddBook(DataMixin, CreateView):

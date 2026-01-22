@@ -13,5 +13,6 @@ urlpatterns = [
     path('editlanguage/<int:pk>/', views.UpdateLanguage.as_view(), name='edit-language'),
     path('deletebook/<slug:slug>/', views.DeleteBook.as_view(), name='delete-book'),
     path('deletefile/<int:pk>/', views.DeleteFile.as_view(), name='delete-file'),
+    path('filedownload/<int:file_id>/', views.file_download, name='file-download'),
     path('<slug:book_slug>/', views.BookPage.as_view(), name='book-page'),
 ]

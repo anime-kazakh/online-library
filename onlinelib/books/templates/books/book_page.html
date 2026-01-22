@@ -78,6 +78,7 @@
             <thead>
                 <tr>
                     <th>Имя файла</th>
+                    <th>Кто загрузил</th>
                     <th>Язык</th>
                     <th>Размер файла</th>
                     <th>Ссылка для скачивания</th>
@@ -87,12 +88,19 @@
                 {% for file in book.files.all %}
                 <tr>
                     <td>{{ file.book_file.name }}</td>
+                    <td>{{ file.post_author.username }}</td>
                     <td>{{ file.language }}</td>
                     <td>{{ file.book_file.size|filesizeformat }}</td>
-                    <td><button>Скачать</button></td>
+                    <td>
+                        <form action="{% url 'file-download' file_id=file.pk %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="download_btn">Скачать</button>
+                        </form>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
+                    <td>-</td>
                     <td>-</td>
                     <td>-</td>
                     <td>-</td>
