@@ -22,6 +22,9 @@
 
 .author-card__inf-panel p {
     margin: 0;
+    display: grid;
+    grid-template-columns: min-content min-content 1fr;
+    white-space: nowrap;
 }
 
 .author-card__article {
@@ -35,4 +38,21 @@
 
 .article__text {
     margin: 0 2em;
+}
+
+.user-possibilities {
+    /*display: flex;*/
+    /*margin: 0 0 0 auto;*/
+    /*justify-content: flex-end;*/
+    text-align: right;
+}
+
+.update-logo svg {
+    width: 1em;
+    height: 1em;
+}
+
+.delete-logo svg {
+    width: 1em;
+    height: 1em;
 }

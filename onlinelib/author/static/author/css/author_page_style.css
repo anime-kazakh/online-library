@@ -57,3 +57,12 @@
 .author-books tbody tr:nth-child(even) {
     background-color: lightblue;
 }
+
+.user-possibilities {
+
+}
+
+.update-logo svg, .delete-logo svg {
+    width: 2em;
+    height: 2em;
+}

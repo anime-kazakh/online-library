@@ -21,7 +21,29 @@
     {% for author in authors %}
         <div class="author-card">
             <div class="author-card__inf-panel">
-                <p>Книг на сайте: {{ author.books.count }}</p>
+                <p>
+                    <span>
+                        {{ author.upload_date }} |
+                        {% if author.post_author %} {{ author.post_author }} {% endif %}
+                    </span>
+                    <span>
+                        Книг на сайте: {{ author.books.count }}
+                    </span>
+                    {% if user.id == author.post_author.id %}
+                        <span class="user-possibilities">
+                            <span class="update-logo">
+                                <a href="{% url 'update-author' slug=author.slug %}">
+                                    {% include 'includes/icons/icons8-редактировать-50.svg' %}
+                                </a>
+                            </span>
+                            <span class="delete-logo">
+                                <a href="{% url 'delete-author' slug=author.slug %}">
+                                    {% include 'includes/icons/icons8-удалить-50-2.svg' %}
+                                </a>
+                            </span>
+                        </span>
+                    {% endif %}
+                </p>
             </div>
             <div class="author-card__article">
                 <img class="article__photo" src="{{ author.photo.url }}">
