@@ -12,12 +12,14 @@
 
 {% block content %}
 <div class="authors-layout">
-    <div class="filters">
-        {% comment %}
-        <a class="author-form" href="{% url 'add-author' %}">Новая запись</a>
-        {% endcomment %}
-    </div>
     <div class="authors-list">
+    {% if user.is_authenticated %}
+        <div class="author-card add-author-card">
+            <a href="{% url 'add-author' %}">
+                {% include 'includes/icons/icons8-плюс-50.svg' %}
+            </a>
+        </div>
+    {% endif %}
     {% for author in authors %}
         <div class="author-card">
             <div class="author-card__inf-panel">

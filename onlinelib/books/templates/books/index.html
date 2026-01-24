@@ -17,6 +17,13 @@
         </form>
     </aside>
     <main class="books-list">
+        {% if user.is_authenticated %}
+            <div class="book-card add-book-card">
+                <a href="{% url 'add-book' %}">
+                    {% include 'includes/icons/icons8-плюс-50.svg' %}
+                </a>
+            </div>
+        {% endif %}
         {% for book in books %}
             <div class="book-card">
                 <a href="{{ book.get_absolute_url }}">

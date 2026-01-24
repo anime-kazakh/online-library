@@ -46,6 +46,15 @@
     margin: 1em ;
 }
 
+.add-book-card {
+    align-content: center;
+}
+
+.add-book-card svg {
+    width: 12em;
+    height: 12em;
+}
+
 .book-card__cover-image {
     width: 12em;
 }

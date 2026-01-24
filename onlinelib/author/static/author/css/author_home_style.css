@@ -4,15 +4,17 @@
     grid-template-rows: min-content min-content;
 }
 
-.filters {
-}
-
 .authors-list {
     margin: 0 4em;
 }
 
 .author-card {
     margin: 2em 0;
+}
+
+.add-author-card {
+    justify-content: center;
+    display: flex;
 }
 
 .author-card__inf-panel {
