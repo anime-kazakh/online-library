@@ -85,6 +85,13 @@ class AddFile(DataMixin, CreateView):
     template_name = 'books/add_record.html'
     title_page = 'Добавление файла'
 
+    def get_initial(self):
+        initial = super().get_initial()
+        book_id = self.request.GET.get('book')
+        if book_id:
+            initial['book'] = book_id
+        return initial
+
 
 class UpdateFile(DataMixin, UpdateView):
     model = Files

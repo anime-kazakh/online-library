@@ -12,6 +12,21 @@
 {% block content %}
 <div class="book-layout">
     <div class="book-layout__book-card">
+        {% if user.id == book.post_author.id %}
+            <div class="user-possibilities">
+                Это ваша статья:
+                <span class="update-logo">
+                    <a href="{% url 'edit-book' slug=book.slug %}">
+                        {% include 'includes/icons/icons8-редактировать-50.svg' %}
+                    </a>
+                </span>
+                <span class="delete-logo">
+                    <a href="{% url 'delete-book' slug=book.slug %}">
+                        {% include 'includes/icons/icons8-удалить-50-2.svg' %}
+                    </a>
+                </span>
+            </div>
+        {% endif %}
         <h1 class="book-card__title">{{ book.title }}</h1>
         <div class="book-card">
             <div class="cover-image">
@@ -87,7 +102,23 @@
             <tbody>
                 {% for file in book.files.all %}
                 <tr>
-                    <td>{{ file.book_file.name }}</td>
+                    <td>
+                        {{ file.book_file.name }}
+                        {% if user.id == file.post_author.id %}
+                            <div class="user-file-possibilities">
+                                <span class="update-logo">
+                                    <a href="{% url 'edit-file' pk=file.pk %}">
+                                        {% include 'includes/icons/icons8-редактировать-50.svg' %}
+                                    </a>
+                                </span>
+                                <span class="delete-logo">
+                                    <a href="{% url 'delete-file' pk=file.pk %}">
+                                        {% include 'includes/icons/icons8-удалить-50-2.svg' %}
+                                    </a>
+                                </span>
+                            </div>
+                        {% endif %}
+                    </td>
                     <td>{{ file.post_author.username }}</td>
                     <td>{{ file.language }}</td>
                     <td>{{ file.book_file.size|filesizeformat }}</td>
@@ -107,6 +138,13 @@
                     <td>-</td>
                 </tr>
                 {% endfor %}
+                <tr class="add-file-row">
+                    <td colspan="5">
+                        <a href="{% url 'add-file' %}?book={{ book.id }}">
+                            {% include 'includes/icons/icons8-плюс-50.svg' %}
+                        </a>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

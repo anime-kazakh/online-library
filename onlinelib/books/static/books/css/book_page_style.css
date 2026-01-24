@@ -7,6 +7,12 @@
 .book-layout__book-card {
 }
 
+.user-possibilities>.update-logo svg,
+.user-possibilities>.delete-logo svg {
+    width: 1.5em;
+    height: 1.5em;
+}
+
 .book-card__title {
     text-align: center;
     font-size: 2em;
@@ -62,4 +68,15 @@
 
 .book-files tbody tr:nth-child(even) {
     background-color: lightblue;
+}
+
+.user-file-possibilities>.update-logo svg,
+.user-file-possibilities>.delete-logo svg {
+    width: 1em;
+    height: 1em;
+}
+
+.add-file-row svg {
+    width: 1em;
+    height: 1em;
 }
