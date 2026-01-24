@@ -100,23 +100,25 @@ class DeleteFile(DataMixin, DeleteView):
     title_page = 'Удаление файла'
 
 
-class AddLanguage(DataMixin, CreateView):
-    form_class = LanguageForm
-    template_name = 'books/add_record.html'
-    success_url = reverse_lazy('books-home')
-    title_page = 'Добавление языка'
-
-
-class UpdateLanguage(DataMixin, UpdateView):
-    model = Language
-    fields = ('name', 'code')
-    template_name = 'books/add_record.html'
-    success_url = reverse_lazy('books-home')
-    title_page = 'Редактирование языка'
-
-
-class DeleteLanguage(DataMixin, DeleteView):
-    model = Language
-    template_name = 'books/delete_confirm.html'
-    success_url = reverse_lazy('books-home')
-    title_page = 'Удаление языка'
+# Пользователь не должен иметь возможность удалять языки
+# этим будет заниматься суперпользователь
+# class AddLanguage(DataMixin, CreateView):
+#     form_class = LanguageForm
+#     template_name = 'books/add_record.html'
+#     success_url = reverse_lazy('books-home')
+#     title_page = 'Добавление языка'
+#
+#
+# class UpdateLanguage(DataMixin, UpdateView):
+#     model = Language
+#     fields = ('name', 'code')
+#     template_name = 'books/add_record.html'
+#     success_url = reverse_lazy('books-home')
+#     title_page = 'Редактирование языка'
+#
+#
+# class DeleteLanguage(DataMixin, DeleteView):
+#     model = Language
+#     template_name = 'books/delete_confirm.html'
+#     success_url = reverse_lazy('books-home')
+#     title_page = 'Удаление языка'
