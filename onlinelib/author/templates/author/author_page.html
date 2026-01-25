@@ -8,6 +8,9 @@
 {% endblock style %}
 
 {% block content %}
+{% include 'includes/icons/icons8-редактировать-50.svg' %}
+{% include 'includes/icons/icons8-удалить-50-2.svg' %}
+
 <div class="author-layout">
     <div class="author-layout__author-card">
         {% if user.id == author.post_author.id %}
@@ -15,12 +18,12 @@
                 Это ваша статья:
                 <span class="update-logo">
                     <a href="{% url 'update-author' slug=author.slug %}">
-                        {% include 'includes/icons/icons8-редактировать-50.svg' %}
+                        <svg><use href="#edit"></use></svg>
                     </a>
                 </span>
                 <span class="delete-logo">
                     <a href="{% url 'delete-author' slug=author.slug %}">
-                        {% include 'includes/icons/icons8-удалить-50-2.svg' %}
+                        <svg><use href="#delete-2"></use></svg>
                     </a>
                 </span>
             </div>

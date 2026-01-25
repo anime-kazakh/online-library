@@ -80,3 +80,48 @@
     width: 1em;
     height: 1em;
 }
+
+.book-layout__book-comments {
+    margin: 0 5em;
+}
+
+.comment-area textarea {
+    resize: none;
+    padding: 1em 3em;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 2em;
+}
+
+.comment {
+    margin: 1em 3em;
+}
+
+.comment-info {
+    margin: 0.5em 0;
+    white-space: nowrap;
+}
+
+.comment-info__username {
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+.comment-info__post-time {
+    font-size: 0.75em;
+    color: grey;
+}
+
+.comment-info__delete-comment {
+    display: inline-block;
+}
+
+.comment-info__delete-comment button {
+    background-color: transparent;
+    border: none;
+}
+
+.comment-info__delete-comment svg {
+    width: 1em;
+    height: 1em;
+}

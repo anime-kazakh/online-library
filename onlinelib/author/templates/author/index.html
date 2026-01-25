@@ -11,12 +11,16 @@
 {% endblock style %}
 
 {% block content %}
+{% include 'includes/icons/icons8-удалить-50-2.svg' %}
+{% include 'includes/icons/icons8-плюс-50.svg' %}
+{% include 'includes/icons/icons8-редактировать-50.svg' %}
+
 <div class="authors-layout">
     <div class="authors-list">
     {% if user.is_authenticated %}
         <div class="author-card add-author-card">
             <a href="{% url 'add-author' %}">
-                {% include 'includes/icons/icons8-плюс-50.svg' %}
+                <svg><use href="#plus"></use></svg>
             </a>
         </div>
     {% endif %}
@@ -35,12 +39,12 @@
                         <span class="user-possibilities">
                             <span class="update-logo">
                                 <a href="{% url 'update-author' slug=author.slug %}">
-                                    {% include 'includes/icons/icons8-редактировать-50.svg' %}
+                                    <svg><use href="#edit"></use></svg>
                                 </a>
                             </span>
                             <span class="delete-logo">
                                 <a href="{% url 'delete-author' slug=author.slug %}">
-                                    {% include 'includes/icons/icons8-удалить-50-2.svg' %}
+                                    <svg><use href="#delete-2"></use></svg>
                                 </a>
                             </span>
                         </span>

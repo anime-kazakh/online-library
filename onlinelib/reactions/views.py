@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -30,9 +31,29 @@ def add_book_comment(request):
                 'BookComment': {
                     'book': book,
                     'user': request.user.username,
+                    'comment_id': book_comment.id,
                     'comment': book_comment.comment,
                     'post_time': book_comment.post_time.strftime('%Y/%m/%d %H:%M'),
                 }
             })
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+
+@login_required(login_url='/accounts/login/')
+@require_POST
+@csrf_exempt
+def delete_book_comment(request):
+    try:
+        data = json.loads(request.body)
+        comment_id = data['comment_id']
+        comment = BookComments.objects.get(id=comment_id)
+
+        if comment.user == request.user:
+            comment.delete()
+        else:
+            raise ValidationError('This is not your comment')
+
+        return JsonResponse({'success': True})
+
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})

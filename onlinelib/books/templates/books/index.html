@@ -9,6 +9,8 @@
 {% endblock style %}
 
 {% block content %}
+{% include 'includes/icons/icons8-плюс-50.svg' %}
+
 <div class="body-layout">
     <aside class="side-panel">
         <form method="GET">
@@ -20,7 +22,7 @@
         {% if user.is_authenticated %}
             <div class="book-card add-book-card">
                 <a href="{% url 'add-book' %}">
-                    {% include 'includes/icons/icons8-плюс-50.svg' %}
+                    <svg><use href="#plus"></use></svg>
                 </a>
             </div>
         {% endif %}

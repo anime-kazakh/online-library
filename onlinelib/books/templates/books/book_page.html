@@ -11,6 +11,10 @@
 {% endblock style %}
 
 {% block content %}
+{% include 'includes/icons/icons8-редактировать-50.svg' %}
+{% include 'includes/icons/icons8-удалить-50-2.svg' %}
+{% include 'includes/icons/icons8-плюс-50.svg' %}
+
 <div class="book-layout">
     <div class="book-layout__book-card">
         {% if user.id == book.post_author.id %}
@@ -18,12 +22,12 @@
                 Это ваша статья:
                 <span class="update-logo">
                     <a href="{% url 'edit-book' slug=book.slug %}">
-                        {% include 'includes/icons/icons8-редактировать-50.svg' %}
+                        <svg><use href="#edit"></use></svg>
                     </a>
                 </span>
                 <span class="delete-logo">
                     <a href="{% url 'delete-book' slug=book.slug %}">
-                        {% include 'includes/icons/icons8-удалить-50-2.svg' %}
+                        <svg><use href="#delete-2"></use></svg>
                     </a>
                 </span>
             </div>
@@ -109,12 +113,12 @@
                             <div class="user-file-possibilities">
                                 <span class="update-logo">
                                     <a href="{% url 'edit-file' pk=file.pk %}">
-                                        {% include 'includes/icons/icons8-редактировать-50.svg' %}
+                                        <svg><use href="#edit"></use></svg>
                                     </a>
                                 </span>
                                 <span class="delete-logo">
                                     <a href="{% url 'delete-file' pk=file.pk %}">
-                                        {% include 'includes/icons/icons8-удалить-50-2.svg' %}
+                                        <svg><use href="#delete-2"></use></svg>
                                     </a>
                                 </span>
                             </div>
@@ -143,7 +147,7 @@
                     <tr class="add-file-row">
                         <td colspan="5">
                             <a href="{% url 'add-file' %}?book={{ book.id }}">
-                                {% include 'includes/icons/icons8-плюс-50.svg' %}
+                                <svg><use href="#plus"></use></svg>
                             </a>
                         </td>
                     </tr>
@@ -162,8 +166,9 @@
                         <p><label class="form-label" for="{{ f.id_for_label }}"></label>{{ f }}</p>
                         <div class="form-error" >{{ f.errors }}</div>
                     {% endfor %}
-                    <button type="submit">123</button>
+                    <button type="submit" style="display: none;"></button>
                 </form>
+
             </div>
         {% else %}
             <div>
@@ -174,15 +179,26 @@
             {% for comment in book.comments.all %}
                 <div class="comment">
                     <div class="comment-info">
-                        <span>
+                        <span class="comment-info__username">
                             {{ comment.user.username }}
                         </span>
-                        <span>
+                        <span class="comment-info__post-time">
                             {{ comment.post_time|date:"SHORT_DATE_FORMAT" }} {{ comment.post_time|time:"H:i" }}
                         </span>
+                        {% if comment.user == user %}
+                            <span class="comment-info__delete-comment">
+                                <form id="delete-comment-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="comment-id" value="{{ comment.id }}">
+                                    <button type="submit">
+                                        <svg><use href="#delete-2"></use></svg>
+                                    </button>
+                                </form>
+                            </span>
+                        {% endif %}
                     </div>
                     <div class="comment-text">
-                        {{ comment.comment }}
+                        {{ comment.comment|linebreaks }}
                     </div>
                 </div>
             {% empty %}
@@ -192,10 +208,14 @@
             {% endfor %}
         </div>
         <div id="app-config"
-             data-post-url="{% url 'reactions:add-book-comment' %}"
-             data-book="{{ book.id }}">
+             data-add-comment-url="{% url 'reactions:add-book-comment' %}"
+             data-delete-comment-url="{% url 'reactions:delete-book-comment' %}"
+             data-book="{{ book.id }}"
+             data-csrf-token="{{ csrf_token }}">
         </div>
         <script src="{% static 'books/js/new_comment_script.js' %}"></script>
+        <script src="{% static 'books/js/delete_comment_script.js' %}"></script>
+        <script src="{% static 'books/js/comment_form_enter_submit.js' %}"></script>
     </div>
 </div>
 {% endblock content %}

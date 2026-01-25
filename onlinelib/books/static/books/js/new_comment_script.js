@@ -7,7 +7,7 @@ document.getElementById('comment-form').addEventListener('submit', function(e) {
         comment:document.getElementById('id_comment').value,
         csrfmiddlewaretoken: document.querySelector('[name=csrfmiddlewaretoken]').value
     };
-    fetch(config.dataset.postUrl, {
+    fetch(config.dataset.addCommentUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -26,11 +26,20 @@ document.getElementById('comment-form').addEventListener('submit', function(e) {
             newComment.className = 'comment'
             newComment.innerHTML = `
                 <div class="comment-info">
-                    <span>
+                    <span class="comment-info__username">
                         ${data.BookComment.user}
                     </span>
-                    <span>
+                    <span class="comment-info__post-time">
                         ${data.BookComment.post_time}
+                    </span>
+                    <span class="comment-info__delete-comment">
+                        <form id="delete-comment-form">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="${config.dataset.csrfToken}">
+                            <input type="hidden" name="comment-id" value="${data.BookComment.comment_id}">
+                            <button type="submit">
+                                <svg><use href="#delete-2"></use></svg>
+                            </button>
+                        </form>
                     </span>
                 </div>
                 <div class="comment-text">
@@ -39,7 +48,7 @@ document.getElementById('comment-form').addEventListener('submit', function(e) {
             `;
             commentsList.prepend(newComment);
             document.getElementById('id_comment').value = '';
-            location.reload()
+            // location.reload()
         } else {
             alert('Ошибка' + data.error);
         }
