@@ -9,6 +9,7 @@ from genre.models import Genre
 from .forms import BookForm, FileForm, LanguageForm
 from .models import Book, Files, Language
 from .filters import BookFilter
+from reactions.froms import CommentForm
 
 
 class BookHome(DataMixin, ListView):
@@ -41,6 +42,9 @@ class BookPage(DataMixin, DetailView):
     template_name = 'books/book_page.html'
     slug_url_kwarg = 'book_slug'
     context_object_name = 'book'
+    extra_context = {
+        'comment_form': CommentForm()
+    }
 
     def get_object(self, queryset=None):
         return get_object_or_404(Book.active, slug=self.kwargs[self.slug_url_kwarg])

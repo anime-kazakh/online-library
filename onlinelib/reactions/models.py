@@ -39,3 +39,4 @@ class BookComments(models.Model):
     class Meta:
         verbose_name = "Книжный комментарий"
         verbose_name_plural = "Книжные комментарии"
+        ordering = ['-id',]

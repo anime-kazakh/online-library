@@ -7,6 +7,7 @@
 
 {% block style %}
 <link type="text/css" href="{% static 'books/css/book_page_style.css' %}" rel="stylesheet">
+
 {% endblock style %}
 
 {% block content %}
@@ -138,15 +139,63 @@
                     <td>-</td>
                 </tr>
                 {% endfor %}
-                <tr class="add-file-row">
-                    <td colspan="5">
-                        <a href="{% url 'add-file' %}?book={{ book.id }}">
-                            {% include 'includes/icons/icons8-плюс-50.svg' %}
-                        </a>
-                    </td>
-                </tr>
+                {% if user.is_authenticated %}
+                    <tr class="add-file-row">
+                        <td colspan="5">
+                            <a href="{% url 'add-file' %}?book={{ book.id }}">
+                                {% include 'includes/icons/icons8-плюс-50.svg' %}
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
             </tbody>
         </table>
+    </div>
+    <div class="book-layout__book-comments">
+
+        {% if user.is_authenticated %}
+            <div class="comment-area">
+                <form id="comment-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="book" value="{{ book.id }}">
+                    {% for f in comment_form %}
+                        <p><label class="form-label" for="{{ f.id_for_label }}"></label>{{ f }}</p>
+                        <div class="form-error" >{{ f.errors }}</div>
+                    {% endfor %}
+                    <button type="submit">123</button>
+                </form>
+            </div>
+        {% else %}
+            <div>
+            Вы должны быть авторизованны, чтобы оставлять комментарии.
+            </div>
+        {% endif %}
+        <div id="comments-list">
+            {% for comment in book.comments.all %}
+                <div class="comment">
+                    <div class="comment-info">
+                        <span>
+                            {{ comment.user.username }}
+                        </span>
+                        <span>
+                            {{ comment.post_time|date:"SHORT_DATE_FORMAT" }} {{ comment.post_time|time:"H:i" }}
+                        </span>
+                    </div>
+                    <div class="comment-text">
+                        {{ comment.comment }}
+                    </div>
+                </div>
+            {% empty %}
+                <div>
+                    Здесь пока нет комментариев.
+                </div>
+            {% endfor %}
+        </div>
+        <div id="app-config"
+             data-post-url="{% url 'reactions:add-book-comment' %}"
+             data-book="{{ book.id }}">
+        </div>
+        <script src="{% static 'books/js/new_comment_script.js' %}"></script>
     </div>
 </div>
 {% endblock content %}
