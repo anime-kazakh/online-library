@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -49,6 +50,16 @@ class BookPage(DataMixin, DetailView):
     def get_object(self, queryset=None):
         return get_object_or_404(Book.active, slug=self.kwargs[self.slug_url_kwarg])
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        book = context['book']
+        avg_score = book.score.aggregate(Avg('score'))['score__avg']
+        context['avg_score'] = round(avg_score, 1) if avg_score else 0
+        if self.request.user.is_authenticated:
+            user_score = book.score.get(user=self.request.user)
+            if user_score:
+                context['user_score'] = user_score.score
+        return context
 
 def file_download(request, file_id):
     file = get_object_or_404(Files, pk=file_id)

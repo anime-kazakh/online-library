@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.db.models import Avg
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -7,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 import json
 
 from books.models import Book
-from .models import BookComments
+from .models import BookComments, BookScore
 from .froms import CommentForm
 
 
@@ -39,6 +40,7 @@ def add_book_comment(request):
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})
 
+
 @login_required(login_url='/accounts/login/')
 @require_POST
 @csrf_exempt
@@ -54,6 +56,33 @@ def delete_book_comment(request):
             raise ValidationError('This is not your comment')
 
         return JsonResponse({'success': True})
+
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+
+
+@login_required(login_url='/accounts/login/')
+@require_POST
+@csrf_exempt
+def book_rate(request):
+    try:
+        data = json.loads(request.body)
+        book = data['book']
+        score = data['score']
+        book_score = BookScore.objects.get(user=request.user, book=book)
+
+        if book_score:
+            book_score.score = score
+            book_score.save()
+        else:
+            BookScore.objects.create(user=request.user, book=book, score=score)
+
+        avg_score = BookScore.objects.filter(book=book).aggregate(Avg('score'))['score__avg']
+
+        return JsonResponse({
+            'success': True,
+            'avg_score': round(avg_score, 1)
+        })
 
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})
