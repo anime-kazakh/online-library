@@ -48,6 +48,7 @@ document.getElementById('comment-form').addEventListener('submit', function(e) {
             `;
             commentsList.prepend(newComment);
             document.getElementById('id_comment').value = '';
+            document.getElementById('empty-comment-string').textContent = '';
             // location.reload()
         } else {
             alert('Ошибка' + data.error);

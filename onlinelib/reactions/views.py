@@ -33,7 +33,7 @@ def add_book_comment(request):
                     'user': request.user.username,
                     'comment_id': book_comment.id,
                     'comment': book_comment.comment,
-                    'post_time': book_comment.post_time.strftime('%Y/%m/%d %H:%M'),
+                    'post_time': book_comment.post_time.strftime('%Y.%m.%d %H:%M'),
                 }
             })
     except Exception as e:
