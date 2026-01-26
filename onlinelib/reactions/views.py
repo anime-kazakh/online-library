@@ -69,7 +69,7 @@ def book_rate(request):
         data = json.loads(request.body)
         book = data['book']
         score = data['score']
-        book_score = BookScore.objects.get(user=request.user, book=book)
+        book_score = BookScore.existing.get_or_none(user=request.user, book=book)
 
         if book_score:
             book_score.score = score

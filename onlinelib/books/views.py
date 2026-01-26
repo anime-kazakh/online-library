@@ -11,6 +11,7 @@ from .forms import BookForm, FileForm, LanguageForm
 from .models import Book, Files, Language
 from .filters import BookFilter
 from reactions.froms import CommentForm
+from reactions.models import BookScore
 
 
 class BookHome(DataMixin, ListView):
@@ -56,7 +57,7 @@ class BookPage(DataMixin, DetailView):
         avg_score = book.score.aggregate(Avg('score'))['score__avg']
         context['avg_score'] = round(avg_score, 1) if avg_score else 0
         if self.request.user.is_authenticated:
-            user_score = book.score.get(user=self.request.user)
+            user_score = BookScore.existing.get_or_none(user=self.request.user, book=book)
             if user_score:
                 context['user_score'] = user_score.score
         return context

@@ -5,6 +5,14 @@ from django.db import models
 from books.models import Book
 
 
+class ExistingManager(models.Manager):
+    def get_or_none(self, **kwargs):
+        try:
+            return self.get(**kwargs)
+        except self.model.DoesNotExist:
+            return None
+
+
 class BookScore(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE,
                              related_name='score', verbose_name="Книга")
@@ -13,6 +21,9 @@ class BookScore(models.Model):
     score = models.IntegerField(validators=[MinValueValidator(1),
                                             MaxValueValidator(10)],
                                 verbose_name="Оценка")
+
+    objects = models.Manager()
+    existing = ExistingManager()
 
     class Meta:
         verbose_name = "Книжная оценка"
