@@ -28,6 +28,10 @@ class AddAuthor(LoginRequiredMixin, DataMixin, CreateView):
     title_page = 'Добавление автора'
     # login_url = 'users:login'
 
+    def form_valid(self, form):
+        w = form.save(commit=False)
+        w.post_author = self.request.user
+        return super().form_valid(form)
 
 class UpdateAuthor(LoginRequiredMixin, DataMixin, UpdateView):
     model = Author

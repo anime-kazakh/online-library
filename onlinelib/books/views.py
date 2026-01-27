@@ -79,6 +79,11 @@ class AddBook(DataMixin, CreateView):
     template_name = 'books/add_record.html'
     title_page = 'Добавление книги'
 
+    def form_valid(self, form):
+        w = form.save(commit=False)
+        w.post_author = self.request.user
+        return super().form_valid(form)
+
 
 class UpdateBook(DataMixin, UpdateView):
     model = Book
@@ -107,6 +112,11 @@ class AddFile(DataMixin, CreateView):
         if book_id:
             initial['book'] = book_id
         return initial
+
+    def form_valid(self, form):
+        w = form.save(commit=False)
+        w.post_author = self.request.user
+        return super().form_valid(form)
 
 
 class UpdateFile(DataMixin, UpdateView):
