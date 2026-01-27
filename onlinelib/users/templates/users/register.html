@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block style %}
+<link type="text/css" href="{% static 'users/css/login_style.css' %}" rel="stylesheet">
+{% endblock style %}
+
+{% block header %} {% endblock header %}
+
+{% block content %}
+    <div class="auth">
+        <h1 class="main-title">Регистрация</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-error" >{{ form.non_field_errors }}</div>
+            {% for f in form %}
+            <p>{{ f }}</p>
+            <div class="form-error" >{{ f.errors }}</div>
+            {% endfor %}
+            <p><button class="submit-button" type="submit">Регистрация</button></p>
+        </form>
+    </div>
+{% endblock content %}
+
+{% block footer %} {% endblock footer %}
