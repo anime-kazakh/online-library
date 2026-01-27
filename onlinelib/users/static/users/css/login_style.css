@@ -3,11 +3,11 @@
 }
 
 .auth {
-    display: grid;
+    /*display: grid;*/
     /*height: 100vh;*/
     /*width: 100vw;*/
     margin: auto auto;
-    width: 20%;
+    width: 30%;
     align-content: center;
     align-items: center;
     justify-content: center;
