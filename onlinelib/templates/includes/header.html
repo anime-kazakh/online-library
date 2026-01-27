@@ -21,7 +21,7 @@
         </div>
         <div class="navigation__user">
             {% if user.is_authenticated %}
-                {{ user.username }} |
+                <a href="{% url 'users:profile' %}">{{ user.username }}</a> |
                 <form style="display: inline-block" method="POST" action="{% url 'users:logout' %}">
                     {% csrf_token %}
                     <button class="exit-button" type="submit">Выйти</button>
