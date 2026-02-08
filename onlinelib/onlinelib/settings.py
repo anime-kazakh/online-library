@@ -32,11 +32,13 @@ SECRET_KEY=os.getenv("SECRET_KEY")
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
+    '0.0.0.0',
 ]
 
 INTERNAL_IPS = [
     '127.0.0.1',
     'localhost',
+    '0.0.0.0',
 ]
 
 
