@@ -67,9 +67,9 @@ def delete_book_comment(request):
 def book_rate(request):
     try:
         data = json.loads(request.body)
-        book = data['book']
+        book = Book.objects.get(id=data['book'])
         score = data['score']
-        book_score = BookScore.existing.get_or_none(user=request.user, book=Book.objects.get(id=book))
+        book_score = BookScore.existing.get_or_none(user=request.user, book=book)
 
         if book_score:
             book_score.score = score
