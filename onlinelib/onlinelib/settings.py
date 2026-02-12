@@ -20,14 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-if DEBUG:
-    import dotenv
-    dotenv.load_dotenv()
+DEBUG = os.getenv("DEBUG", False)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY=os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -40,7 +36,6 @@ INTERNAL_IPS = [
     'localhost',
     '0.0.0.0',
 ]
-
 
 # Application definition
 
@@ -97,7 +92,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'onlinelib.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
@@ -107,7 +101,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -127,7 +120,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -138,7 +130,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -158,15 +149,30 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 # Auth
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth
 
-LOGIN_REDIRECT_URL = 'home' # Default: '/accounts/profile/'
-LOGOUT_REDIRECT_URL = 'home' # Default: none
-LOGIN_URL = 'users:login' # Default: 'accounts/login/'
+LOGIN_REDIRECT_URL = 'home'  # Default: '/accounts/profile/'
+LOGOUT_REDIRECT_URL = 'home'  # Default: none
+LOGIN_URL = 'users:login'  # Default: 'accounts/login/'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'users.authentication.EmailAuthBackend',
 ]
+
+# Cache
+# Using Redis caching
+
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+REDIS_PORT = os.getenv("REDIS_PORT", 6379)
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}

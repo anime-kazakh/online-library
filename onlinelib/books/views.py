@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.db.models import F
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.core.cache import cache
 
 from common.utils import DataMixin
 from genre.models import Genre
@@ -12,6 +13,7 @@ from .models import Book, Files, Language
 from .filters import BookFilter
 from reactions.froms import CommentForm
 from reactions.models import BookScore
+from .tasks import update_books_views_count
 
 
 class BookHome(DataMixin, ListView):
@@ -26,7 +28,7 @@ class BookHome(DataMixin, ListView):
         'genres': Genre.objects.all()
     }
     title_page = "Книги"
-    paginate_by = 20 # Слайсает и невозможно пользоваться фильтром
+    paginate_by = 20  # Слайсает и невозможно пользоваться фильтром
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -49,7 +51,22 @@ class BookPage(DataMixin, DetailView):
     }
 
     def get_object(self, queryset=None):
-        return get_object_or_404(Book.active, slug=self.kwargs[self.slug_url_kwarg])
+        _slug = self.kwargs[self.slug_url_kwarg]
+
+        book = get_object_or_404(Book.active, slug=_slug)
+
+        cache_key = f'books:{_slug}:views_count'
+
+        try:
+            current_views = cache.incr(cache_key)
+        except ValueError:
+            cache.set(cache_key, book.views_count, timeout=None)
+            current_views = cache.incr(cache_key)
+
+        if current_views % 10 == 0:
+            update_books_views_count(_slug)
+
+        return book
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -61,6 +78,7 @@ class BookPage(DataMixin, DetailView):
             if user_score:
                 context['user_score'] = user_score.score
         return context
+
 
 def file_download(request, file_id):
     file = get_object_or_404(Files, pk=file_id)
@@ -131,7 +149,6 @@ class DeleteFile(DataMixin, DeleteView):
     template_name = 'books/delete_confirm.html'
     success_url = reverse_lazy('books-home')
     title_page = 'Удаление файла'
-
 
 # Пользователь не должен иметь возможность удалять языки
 # этим будет заниматься суперпользователь
