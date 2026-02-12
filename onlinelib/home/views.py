@@ -19,15 +19,10 @@ class Home(DataMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['books_mostpop'] = Book.objects.order_by('views_count')[:5]
+        context['books_mostpop'] = Book.objects.order_by('-views_count')[:5]
         rand_pk = randint(1, Book.objects.count())
         context['rand_book'] = Book.objects.get(pk=rand_pk)
         return context
-
-
-# @login_required(login_url='/users/login/')
-# def about(request):
-#     return render(request, 'home/about.html')
 
 
 class About(DataMixin, TemplateView):
@@ -50,7 +45,8 @@ class Search(DataMixin, TemplateView):
                 context['books'] = Book.objects.filter(Q(title__icontains=query) |
                                                        Q(original_title__icontains=query))
                 context['genres'] = Genre.objects.filter(name__icontains=query)
-        else: form = SearchForm()
+        else:
+            form = SearchForm()
         context['form'] = form
 
         return context
