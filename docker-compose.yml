@@ -16,6 +16,7 @@ services:
       SECRET_KEY: ${SECRET_KEY}
       REDIS_HOST: ${REDIS_HOST}
       REDIS_PORT: ${REDIS_PORT}
+      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
     volumes:
       - ./:/online-library
   redis:
