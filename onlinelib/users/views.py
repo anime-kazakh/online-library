@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.contrib.auth.models import User, Group
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
-from users.forms import LoginForm, RegisterUserForm, ProfileUserForm, UserPasswordChangeForm
+from users.forms import LoginForm, RegisterUserForm, ProfileUserForm
 
 
 class LoginUser(LoginView):
@@ -22,6 +23,14 @@ class RegisterUser(CreateView):
     template_name = 'users/register.html'
     extra_context = {'title': "Регистрация"}
     success_url = reverse_lazy('users:login')
+
+    def form_valid(self, form):
+        _user = form.save(commit=False)
+        _response = super().form_valid(form)
+
+        g = Group.objects.get(name='reader')
+        _user.groups.add(g)
+        return _response
 
 
 class ProfileUser(LoginRequiredMixin,UpdateView):
