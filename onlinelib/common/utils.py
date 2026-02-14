@@ -1,3 +1,5 @@
+from django.core.exceptions import PermissionDenied
+
 menu = [
     { 'title': 'Жанры', 'url_name': 'genre-home' },
     { 'title': 'Авторы', 'url_name': 'author-home' },
@@ -20,3 +22,15 @@ class DataMixin:
     #     context['menu'] = self.extra_context['menu']
     #     context.update(kwargs)
     #     return context
+
+
+class PermissionMixin:
+    """
+    Проверяет, является ли пользователем статьи.
+    ! Модель должна содержать поле post_author указывающий на user.
+    """
+    def get_object(self, queryset=None):
+        model = super().get_object(queryset)
+        if self.request.user != model.post_author:
+            raise PermissionDenied
+        return model
