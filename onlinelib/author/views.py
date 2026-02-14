@@ -1,10 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.core.exceptions import PermissionDenied
 
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from common.utils import DataMixin
+from common.utils import DataMixin, PermissionMixin
 from .models import Author
 from .forms import AuthorForm
 
@@ -37,29 +36,17 @@ class AddAuthor(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateVi
         return super().form_valid(form)
 
 
-class UpdateAuthor(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, UpdateView):
+class UpdateAuthor(PermissionRequiredMixin, LoginRequiredMixin, PermissionMixin, DataMixin, UpdateView):
     model = Author
     form_class = AuthorForm
     template_name = 'author/add_author.html'
     title_page = 'Редактирование автора'
     permission_required = 'author.change_author'
 
-    def get_object(self, queryset=None):
-        author = super().get_object(queryset)
-        if self.request.user != author.post_author:
-            raise PermissionDenied
-        return author
 
-
-class DeleteAuthor(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, DeleteView):
+class DeleteAuthor(PermissionRequiredMixin, LoginRequiredMixin, PermissionMixin, DataMixin, DeleteView):
     model = Author
     template_name = 'author/delete_confirm.html'
     success_url = reverse_lazy('author-home')
     title_page = 'Удаление автора'
     permission_required = 'author.delete_author'
-
-    def get_object(self, queryset=None):
-        author = super().get_object(queryset)
-        if self.request.user != author.post_author:
-            raise PermissionDenied
-        return author
