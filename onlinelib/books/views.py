@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Avg
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404
@@ -6,7 +7,7 @@ from django.db.models import F
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.cache import cache
 
-from common.utils import DataMixin
+from common.utils import DataMixin, PermissionMixin
 from genre.models import Genre
 from .forms import BookForm, FileForm, LanguageForm
 from .models import Book, Files, Language
@@ -88,7 +89,7 @@ def file_download(request, file_id):
     return FileResponse(file.book_file.open('rb'), as_attachment=True)
 
 
-class AddBook(DataMixin, CreateView):
+class AddBook(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView):
     form_class = BookForm
     # We can create CreateView without form
     # model = Book
@@ -96,6 +97,7 @@ class AddBook(DataMixin, CreateView):
     # fields = ('name', 'slug', ...)
     template_name = 'books/add_record.html'
     title_page = 'Добавление книги'
+    permission_required = 'books.add_book'
 
     def form_valid(self, form):
         w = form.save(commit=False)
@@ -103,26 +105,29 @@ class AddBook(DataMixin, CreateView):
         return super().form_valid(form)
 
 
-class UpdateBook(DataMixin, UpdateView):
+class UpdateBook(PermissionRequiredMixin, LoginRequiredMixin, PermissionMixin, DataMixin, UpdateView):
     model = Book
     fields = ('title', 'original_title', 'cover_image', 'description',
               'publication_year', 'status', 'authors', 'genres',
               'tags', 'age_rating', 'warnings')
     template_name = 'books/add_record.html'
     title_page = 'Редактирование книги'
+    permission_required = 'books.change_book'
 
 
-class DeleteBook(DataMixin, DeleteView):
+class DeleteBook(PermissionRequiredMixin, LoginRequiredMixin, PermissionMixin, DataMixin, DeleteView):
     model = Book
     template_name = 'books/delete_confirm.html'
     success_url = reverse_lazy('books-home')
     title_page = 'Удаление книги'
+    permission_required = 'books.delete_book'
 
 
-class AddFile(DataMixin, CreateView):
+class AddFile(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView):
     form_class = FileForm
     template_name = 'books/add_record.html'
     title_page = 'Добавление файла'
+    permission_required = 'books.add_files'
 
     def get_initial(self):
         initial = super().get_initial()
@@ -137,18 +142,20 @@ class AddFile(DataMixin, CreateView):
         return super().form_valid(form)
 
 
-class UpdateFile(DataMixin, UpdateView):
+class UpdateFile(PermissionRequiredMixin, LoginRequiredMixin, PermissionMixin, DataMixin, UpdateView):
     model = Files
     fields = ('book', 'book_file', 'language')
     template_name = 'books/add_record.html'
     title_page = 'Редактирование файла'
+    permission_required = 'books.change_files'
 
 
-class DeleteFile(DataMixin, DeleteView):
+class DeleteFile(PermissionRequiredMixin, LoginRequiredMixin, PermissionMixin, DataMixin, DeleteView):
     model = Files
     template_name = 'books/delete_confirm.html'
     success_url = reverse_lazy('books-home')
     title_page = 'Удаление файла'
+    permission_required = 'books.delete_files'
 
 # Пользователь не должен иметь возможность удалять языки
 # этим будет заниматься суперпользователь
