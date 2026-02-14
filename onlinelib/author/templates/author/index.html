@@ -17,7 +17,7 @@
 
 <div class="authors-layout">
     <div class="authors-list">
-    {% if user.is_authenticated %}
+    {% if perms.author.add_author %}
         <div class="author-card add-author-card">
             <a href="{% url 'add-author' %}">
                 <svg><use href="#plus"></use></svg>
