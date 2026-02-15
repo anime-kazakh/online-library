@@ -160,7 +160,7 @@
                     <td>-</td>
                 </tr>
                 {% endfor %}
-                {% if user.is_authenticated %}
+                {% if perms.books.add_files %}
                     <tr class="add-file-row">
                         <td colspan="5">
                             <a href="{% url 'add-file' %}?book={{ book.id }}">

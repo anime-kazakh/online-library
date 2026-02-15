@@ -19,7 +19,7 @@
         </form>
     </aside>
     <main class="books-list">
-        {% if user.is_authenticated %}
+        {% if perms.books.add_book %}
             <div class="book-card add-book-card">
                 <a href="{% url 'add-book' %}">
                     <svg><use href="#plus"></use></svg>
