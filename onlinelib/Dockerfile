@@ -25,5 +25,3 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 USER appuser
 
 COPY . .
-
-EXPOSE 8000

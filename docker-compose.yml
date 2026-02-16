@@ -1,11 +1,29 @@
 #version: "5.0.2"
 
 services:
-  web:
+  nginx:
+    image: nginx:latest
+    container_name: nginx-server
+    restart: always
+    expose:
+      - 8088
+    ports:
+      - "80:8088"
+    volumes:
+      - ./onlinelib/static:/online-library/static
+      - ./onlinelib/media:/online-library/media
+      - ./onlinelib/logs:/online-library/logs
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - onlinelib
+
+  onlinelib:
     image: online-library
     build:
-      context: .
-    container_name: django_app
+      context: ./onlinelib
+    container_name: online-library
+    restart: always
+    command: gunicorn -c gunicorn.py onlinelib.wsgi:application
     ports:
       - "8000:8000"
     depends_on:
@@ -14,11 +32,13 @@ services:
     environment:
       DEBUG: ${DEBUG}
       SECRET_KEY: ${SECRET_KEY}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
       REDIS_HOST: ${REDIS_HOST}
       REDIS_PORT: ${REDIS_PORT}
       EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
     volumes:
-      - ./:/online-library
+      - ./onlinelib:/onlinelib
+
   redis:
     image: redis:8.6.0
     container_name: redis_cache
