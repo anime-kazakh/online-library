@@ -2,9 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 
-# from transliterate import slugify
 
-# Create your models here.
 class Author(models.Model):
     full_name = models.CharField(max_length=255, verbose_name="ФИО")
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="slug")
