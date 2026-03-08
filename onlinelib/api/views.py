@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from rest_framework.exceptions import NotFound
-from rest_framework import generics, viewsets
+from rest_framework import viewsets
 
 from author.serializers import AuthorSerializer
 from author.models import Author
@@ -18,70 +18,72 @@ class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(post_author=self.request.user)
+
+
 # ------------------Books API --------------------------------
-class BookListAPIView(generics.ListCreateAPIView):
+class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-
-class BookDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    # lookup_field = 'slug'
-    lookup_url_kwarg = 'book'
+    def perform_create(self, serializer):
+        serializer.save(post_author=self.request.user)
 
 
-class LanguageListAPIView(generics.ListCreateAPIView):
+class LanguageViewSets(viewsets.ModelViewSet):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
 
 
-class LanguageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Language.objects.all()
-    serializer_class = LanguageSerializer
-
-
-class FileListAPIView(generics.ListCreateAPIView):
+class FileViewSet(viewsets.ModelViewSet):
     queryset = Files.objects.all()
     serializer_class = FileSerializer
 
+    def get_queryset(self):
+        book_pk = self.kwargs.get('book_pk')
+        book = get_object_or_404(Book, pk=book_pk)
+        return Files.objects.filter(book=book)
 
-class FileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Files.objects.all()
-    serializer_class = FileSerializer
-    lookup_field = 'book'
-    lookup_url_kwarg = 'book'
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if not queryset.exists():
+            raise NotFound("Нет файлов.")
+        return super().list(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        book = get_object_or_404(Book, pk=self.kwargs.get('book_pk'))
+        serializer.save(post_author=self.request.user, book=book)
 
 
 # ------------------Genres API --------------------------------
-class GenreListAPIView(generics.ListAPIView):
+class GenreViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
 
 
-class TagListAPIView(generics.ListAPIView):
+class TagViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
 
-class ContentWarningListAPIView(generics.ListAPIView):
+class ContentWarningViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ContentWarning.objects.all()
     serializer_class = ContentWarningSerializer
 
 
-class AgeRatingListAPIView(generics.ListAPIView):
+class AgeRatingViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = AgeRating.objects.all()
     serializer_class = AgeRatingSerializer
 
 
 # ------------------Reactions API --------------------------------
-class BookCommentListAPIView(generics.ListCreateAPIView):
+class BookCommentViewSet(viewsets.ModelViewSet):
     serializer_class = BookCommentsSerializer
-    lookup_field = 'book'
-    lookup_url_kwarg = 'book'
+    queryset = BookComments.objects.all()
 
     def get_queryset(self):
-        book_pk = self.kwargs.get(self.lookup_url_kwarg)
+        book_pk = self.kwargs.get('book_pk')
         book = get_object_or_404(Book, pk=book_pk)
         return BookComments.objects.filter(book=book)
 
@@ -92,23 +94,16 @@ class BookCommentListAPIView(generics.ListCreateAPIView):
         return super().list(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        book = get_object_or_404(Book, pk=self.kwargs.get(self.lookup_url_kwarg))
+        book = get_object_or_404(Book, pk=self.kwargs.get('book_pk'))
         serializer.save(user=self.request.user, book=book)
 
 
-class BookCommentDestroyAPIView(generics.DestroyAPIView):
-    queryset = BookComments.objects.all()
-    serializer_class = BookCommentsSerializer
-    lookup_url_kwarg = 'comment'
-
-
-class BookScoreListAPIView(generics.ListCreateAPIView):
+class BookScoreViewSet(viewsets.ModelViewSet):
     serializer_class = BookScoreSerializer
-    lookup_field = 'book'
-    lookup_url_kwarg = 'book'
+    queryset = BookScore.objects.all()
 
     def get_queryset(self):
-        book_pk = self.kwargs.get(self.lookup_url_kwarg)
+        book_pk = self.kwargs.get('book_pk')
         book = get_object_or_404(Book, pk=book_pk)
         return BookScore.objects.filter(book=book)
 
@@ -119,7 +114,7 @@ class BookScoreListAPIView(generics.ListCreateAPIView):
         return super().list(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        book = get_object_or_404(Book, pk=self.kwargs.get(self.lookup_url_kwarg))
+        book = get_object_or_404(Book, pk=self.kwargs.get('book_pk'))
         user = self.request.user
 
         if BookScore.objects.filter(book=book, user=user).exists():
