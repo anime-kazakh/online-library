@@ -30,6 +30,7 @@ urlpatterns = [
     path('genres/', include('genre.urls')),
     path('users/', include('users.urls', namespace='users')),
     path('reactions/', include('reactions.urls', namespace='reactions')),
+    path('api/v1/', include('api.urls', namespace='api')),
 ] + debug_toolbar_urls()
 
 admin.site.site_header = "Панель администрирования"
