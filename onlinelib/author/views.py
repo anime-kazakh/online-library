@@ -32,7 +32,7 @@ class AddAuthor(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateVi
 
     def form_valid(self, form):
         w = form.save(commit=False)
-        w.post_author = self.request.user
+        w.user = self.request.user
         return super().form_valid(form)
 
 

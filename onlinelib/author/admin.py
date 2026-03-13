@@ -7,16 +7,16 @@ from .models import Author
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
     fields = ('full_name', 'slug', 'birth_date', 'death_date',
-              'photo', 'post_photo', 'bio', 'upload_date', 'post_author')
+              'photo', 'post_photo', 'bio', 'upload_date', 'user')
     list_display = ('id', 'full_name', 'post_photo', 'birth_date', 'death_date',
-                    'upload_date', 'post_author__username')
+                    'upload_date', 'user__username')
     list_display_links = ('id', 'full_name')
     readonly_fields = ('post_photo',)
     prepopulated_fields = {'slug': ('full_name',)}
     ordering = ('full_name',)
     list_per_page = 20
-    search_fields = ('full_name', 'post_author__username')
-    list_filter = ('full_name', 'post_author__username')
+    search_fields = ('full_name', 'user__username')
+    list_filter = ('full_name', 'user__username')
     save_on_top = True
 
     @admin.display(description='Изображение автора')

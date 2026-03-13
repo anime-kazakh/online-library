@@ -30,12 +30,12 @@
                 <p>
                     <span>
                         {{ author.upload_date }} |
-                        {% if author.post_author %} {{ author.post_author }} {% endif %}
+                        {% if author.user %} {{ author.user }} {% endif %}
                     </span>
                     <span>
                         Книг на сайте: {{ author.books.count }}
                     </span>
-                    {% if user.id == author.post_author.id %}
+                    {% if user.id == author.user.id %}
                         <span class="user-possibilities">
                             <span class="update-logo">
                                 <a href="{% url 'update-author' slug=author.slug %}">
