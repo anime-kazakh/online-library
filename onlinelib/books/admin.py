@@ -8,7 +8,7 @@ from .models import Book, Language, Files
 class BookAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'original_title',
                     'slug', 'post_cover', 'upload_date', 'views_count',
-                    'status', 'post_author__username')
+                    'status', 'user__username')
                     # 'status', 'description_info')
     list_display_links = ('title', )
     readonly_fields = ('views_count', )
@@ -18,8 +18,8 @@ class BookAdmin(admin.ModelAdmin):
     list_editable = ('status',)
     list_per_page = 20
     actions = ('set_status_available', 'set_status_unavailable')
-    search_fields = ('title', 'original_title', 'post_author__username')
-    list_filter = ('status', 'authors', 'genres', 'tags', 'age_rating', 'post_author__username')
+    search_fields = ('title', 'original_title', 'user__username')
+    list_filter = ('status', 'authors', 'genres', 'tags', 'age_rating', 'user__username')
     save_on_top = True
 
     @admin.display(description='Обложка')
@@ -53,9 +53,9 @@ class LanguageAdmin(admin.ModelAdmin):
 
 @admin.register(Files)
 class FilesAdmin(admin.ModelAdmin):
-    list_display = ('id', 'book', 'language', 'upload_date', 'download_count', 'post_author__username')
+    list_display = ('id', 'book', 'language', 'upload_date', 'download_count', 'user__username')
     list_display_links = ('id', 'book')
     readonly_fields = ('download_count',)
     list_per_page = 20
-    search_fields = ('book__title', 'book__original_title', 'post_author__username')
-    list_filter = ('language', 'post_author__username')
+    search_fields = ('book__title', 'book__original_title', 'user__username')
+    list_filter = ('language', 'user__username')

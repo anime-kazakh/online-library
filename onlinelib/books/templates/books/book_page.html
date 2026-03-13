@@ -17,7 +17,7 @@
 
 <div class="book-layout">
     <div class="book-layout__book-card">
-        {% if user.id == book.post_author.id %}
+        {% if user.id == book.user.id %}
             <div class="user-possibilities">
                 Это ваша статья:
                 <span class="update-logo">
@@ -126,7 +126,7 @@
                 <tr>
                     <td>
                         {{ file.book_file.name }}
-                        {% if user.id == file.post_author.id %}
+                        {% if user.id == file.user.id %}
                             <div class="user-file-possibilities">
                                 <span class="update-logo">
                                     <a href="{% url 'edit-file' pk=file.pk %}">
@@ -141,7 +141,7 @@
                             </div>
                         {% endif %}
                     </td>
-                    <td>{{ file.post_author.username }}</td>
+                    <td>{{ file.user.username }}</td>
                     <td>{{ file.language }}</td>
                     <td>{{ file.book_file.size|filesizeformat }}</td>
                     <td>

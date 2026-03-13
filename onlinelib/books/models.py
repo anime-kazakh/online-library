@@ -44,7 +44,7 @@ class Book(models.Model):
                                    verbose_name='Возрастной рейтинг', related_name='books')
     warnings = models.ManyToManyField(ContentWarning, verbose_name='Предупреждения',
                                       related_name='books', blank=True)
-    post_author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True,
+    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True,
                                     related_name='books', verbose_name='Автор поста')
 
     objects = models.Manager()
@@ -90,7 +90,7 @@ class Files(models.Model):
                                  verbose_name="Язык")
     upload_date = models.DateField(auto_now_add=True, verbose_name="Дата загрузки")
     download_count = models.IntegerField(default=0, verbose_name="Количество скачиваний")
-    post_author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True,
+    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True,
                                     related_name='files', verbose_name="Автор поста")
 
     class Meta:

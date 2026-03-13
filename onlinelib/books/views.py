@@ -101,7 +101,7 @@ class AddBook(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView
 
     def form_valid(self, form):
         w = form.save(commit=False)
-        w.post_author = self.request.user
+        w.user = self.request.user
         return super().form_valid(form)
 
 
@@ -138,7 +138,7 @@ class AddFile(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView
 
     def form_valid(self, form):
         w = form.save(commit=False)
-        w.post_author = self.request.user
+        w.user = self.request.user
         return super().form_valid(form)
 
 

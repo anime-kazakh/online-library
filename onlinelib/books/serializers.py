@@ -4,10 +4,12 @@ from .models import Book, Files, Language
 
 
 class BookSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = Book
         fields = '__all__'
-        read_only_fields = ('upload_date', 'post_author')
+        read_only_fields = ('upload_date', 'user')
 
 
 class LanguageSerializer(serializers.ModelSerializer):
@@ -17,7 +19,9 @@ class LanguageSerializer(serializers.ModelSerializer):
 
 
 class FileSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = Files
         fields = '__all__'
-        read_only_fields = ('upload_date', 'post_author')
+        read_only_fields = ('upload_date', 'user')
