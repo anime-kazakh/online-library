@@ -18,17 +18,11 @@ class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
-    def perform_create(self, serializer):
-        serializer.save(post_author=self.request.user)
-
 
 # ------------------Books API --------------------------------
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(post_author=self.request.user)
 
 
 class LanguageViewSets(viewsets.ModelViewSet):
@@ -53,7 +47,7 @@ class FileViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         book = get_object_or_404(Book, pk=self.kwargs.get('book_pk'))
-        serializer.save(post_author=self.request.user, book=book)
+        serializer.save(book=book)
 
 
 # ------------------Genres API --------------------------------
@@ -95,7 +89,7 @@ class BookCommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         book = get_object_or_404(Book, pk=self.kwargs.get('book_pk'))
-        serializer.save(user=self.request.user, book=book)
+        serializer.save(book=book)
 
 
 class BookScoreViewSet(viewsets.ModelViewSet):
@@ -120,4 +114,4 @@ class BookScoreViewSet(viewsets.ModelViewSet):
         if BookScore.objects.filter(book=book, user=user).exists():
             raise serializers.ValidationError('Вы уже оценили эту книгу')
 
-        serializer.save(user=self.request.user, book=book)
+        serializer.save(book=book)
