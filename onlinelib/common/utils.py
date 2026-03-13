@@ -27,10 +27,10 @@ class DataMixin:
 class PermissionMixin:
     """
     Проверяет, является ли пользователем статьи.
-    ! Модель должна содержать поле post_author указывающий на user.
+    ! Модель должна содержать поле user.
     """
     def get_object(self, queryset=None):
         model = super().get_object(queryset)
-        if self.request.user != model.post_author:
+        if self.request.user != model.user:
             raise PermissionDenied
         return model
