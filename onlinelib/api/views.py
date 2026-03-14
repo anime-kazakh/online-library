@@ -3,6 +3,8 @@ from rest_framework import serializers
 from rest_framework.exceptions import NotFound
 from rest_framework import viewsets
 
+from .permissions import IsAuthorOrReadOnly, IsAdminOrReadOnly, IsOwnerStuffOrReadOnly
+
 from author.serializers import AuthorSerializer
 from author.models import Author
 from books.serializers import BookSerializer, FileSerializer, LanguageSerializer
@@ -17,22 +19,26 @@ from reactions.models import BookComments, BookScore
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
+    permission_classes = (IsAuthorOrReadOnly, )
 
 
 # ------------------Books API --------------------------------
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = (IsAuthorOrReadOnly, )
 
 
 class LanguageViewSets(viewsets.ModelViewSet):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
+    permission_classes = (IsAdminOrReadOnly, )
 
 
 class FileViewSet(viewsets.ModelViewSet):
     queryset = Files.objects.all()
     serializer_class = FileSerializer
+    permission_classes = (IsAuthorOrReadOnly,)
 
     def get_queryset(self):
         book_pk = self.kwargs.get('book_pk')
@@ -51,30 +57,36 @@ class FileViewSet(viewsets.ModelViewSet):
 
 
 # ------------------Genres API --------------------------------
-class GenreViewSet(viewsets.ReadOnlyModelViewSet):
+class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
+    permission_classes = (IsAdminOrReadOnly, )
 
 
-class TagViewSet(viewsets.ReadOnlyModelViewSet):
+class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+    permission_classes = (IsAdminOrReadOnly,)
 
 
-class ContentWarningViewSet(viewsets.ReadOnlyModelViewSet):
+class ContentWarningViewSet(viewsets.ModelViewSet):
     queryset = ContentWarning.objects.all()
     serializer_class = ContentWarningSerializer
+    permission_classes = (IsAdminOrReadOnly,)
 
 
-class AgeRatingViewSet(viewsets.ReadOnlyModelViewSet):
+class AgeRatingViewSet(viewsets.ModelViewSet):
     queryset = AgeRating.objects.all()
     serializer_class = AgeRatingSerializer
+    permission_classes = (IsAdminOrReadOnly,)
 
 
 # ------------------Reactions API --------------------------------
 class BookCommentViewSet(viewsets.ModelViewSet):
     serializer_class = BookCommentsSerializer
     queryset = BookComments.objects.all()
+    permission_classes = (IsOwnerStuffOrReadOnly, )
+
 
     def get_queryset(self):
         book_pk = self.kwargs.get('book_pk')
@@ -95,6 +107,7 @@ class BookCommentViewSet(viewsets.ModelViewSet):
 class BookScoreViewSet(viewsets.ModelViewSet):
     serializer_class = BookScoreSerializer
     queryset = BookScore.objects.all()
+    permission_classes = (IsOwnerStuffOrReadOnly, )
 
     def get_queryset(self):
         book_pk = self.kwargs.get('book_pk')
