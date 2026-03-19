@@ -3,6 +3,8 @@ from django.db import models
 from django.urls import reverse
 
 
+DEFAULT_AUTHOR_PHOTO = 'author/photos/default.png'
+
 class Author(models.Model):
     full_name = models.CharField(max_length=255, verbose_name="ФИО")
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="slug")
@@ -12,7 +14,7 @@ class Author(models.Model):
         upload_to='author/photos/%Y/%m/%d/',
         blank=False,
         null=False,
-        default='author/photos/default.png',
+        default=DEFAULT_AUTHOR_PHOTO,
         verbose_name="Фотография"
     )
     bio = models.TextField(blank=True, null=True, verbose_name="Биография")

@@ -1,0 +1,51 @@
+#=========================================
+# pytest
+#=========================================
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "onlinelib.settings"
+python_files = ["tests.py", "test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_function = ["test_*"]
+env_filse = [".env"]
+addopts = [
+    "--cov=.",
+    "--cov-report=term",
+    "--cov-report=html",
+    "-v",
+]
+markers = [
+    "slow: marks tests as slow",
+    "integration: marks tests as integrations",
+]
+
+#=========================================
+# coverage
+#=========================================
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "*/migrations/*",
+    "*/tests/*",
+    "*/__pycache__/*",
+    "venv/*",
+    ".venv/*",
+    "manage.py",
+    "*/settings/*",
+    "*/urls.py",
+    "gunicorn.py",
+    "*/wsgi.py",
+    "*/asgi.py",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "pass",
+]

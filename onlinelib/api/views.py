@@ -1,7 +1,9 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import serializers
+from rest_framework import serializers, status
+from rest_framework.decorators import action
 from rest_framework.exceptions import NotFound
 from rest_framework import viewsets
+from rest_framework.response import Response
 
 from .permissions import IsAuthorOrReadOnly, IsAdminOrReadOnly, IsOwnerStuffOrReadOnly
 
@@ -27,6 +29,26 @@ class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = (IsAuthorOrReadOnly, )
+    ordering_fields = '__all__'
+    # filterset_fields = ('authors', 'genres', 'tags',
+    #                     'age_rating', 'warnings', 'user')
+    search_fields = ('title', 'original_title', 'author__full_name',
+                     'genre__name')
+    filterset_fields = {
+        'authors': ['exact', 'in'],
+        'genres': ['exact', 'in'],
+        'tags': ['exact', 'in'],
+        'age_rating': ['exact', 'in'],
+        'warnings': ['exact', 'in'],
+        'user': ['exact'],
+        'publication_year': ['exact', 'gte', 'lte'],
+    }
+
+    @action(detail=False, methods=['get'])
+    def get_most_popular(self, request):
+        books = self.get_queryset().order_by('-views_count')[:5:]
+        serializer = self.get_serializer(books, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class LanguageViewSets(viewsets.ModelViewSet):
