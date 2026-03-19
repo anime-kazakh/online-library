@@ -12,7 +12,7 @@ class TestAuthorModel:
     Тестирование модели Author
     """
 
-# ------------ Создание -----------------------
+    # ------------ Создание -----------------------
     def test_create_author(self):
         author = AuthorFactory()
 
@@ -21,12 +21,12 @@ class TestAuthorModel:
             slug=author.slug,
         ).exists()
 
-# ------------- __str__ -----------------------
+    # ------------- __str__ -----------------------
     def test_str(self):
         author = AuthorFactory()
         assert str(author) == author.full_name
 
-# ------------ get_absolute_url ---------------
+    # ------------ get_absolute_url ---------------
     def test_get_absolute_url(self):
         author = AuthorFactory()
         url = author.get_absolute_url()
@@ -34,13 +34,13 @@ class TestAuthorModel:
                            kwargs={'author_slug': author.slug})
         assert url == expected
 
-# ------------ slug unique --------------------
+    # ------------ slug unique --------------------
     def test_slug_unique(self):
         AuthorFactory(slug='test-slug')
         with pytest.raises(IntegrityError):
             AuthorFactory(slug='test-slug')
 
-# ------------ default photo ------------------
+    # ------------ default photo ------------------
     def test_photo_default(self):
         author = AuthorFactory()
 
