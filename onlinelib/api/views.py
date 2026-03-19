@@ -23,6 +23,9 @@ class AuthorViewSet(viewsets.ModelViewSet):
     serializer_class = AuthorSerializer
     permission_classes = (IsAuthorOrReadOnly, )
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 # ------------------Books API --------------------------------
 class BookViewSet(viewsets.ModelViewSet):
