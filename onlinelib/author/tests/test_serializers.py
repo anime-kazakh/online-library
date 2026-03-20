@@ -2,7 +2,6 @@ import pytest
 from django.utils import timezone
 
 from ..serializers import AuthorSerializer
-from users.tests.conftest import *
 
 pytestmark = pytest.mark.django_db
 
@@ -64,7 +63,7 @@ class TestAuthorSerializer:
         assert author.user != user
 
     # ---------------- validation ---------------------------
-    def test_missing_required_fields(self, user):
+    def test_missing_required_fields(self):
         data = {}
 
         serializer = AuthorSerializer(data=data)
