@@ -8,6 +8,14 @@ class UserFactory(DjangoModelFactory):
     username = factory.Sequence(lambda n: f'user{n}')
     email = factory.LazyAttribute(lambda o: f'{o.username}@test.com')
     password = factory.PostGenerationMethodCall('set_password', 'testpass123')
+    groups = factory.PostGeneration(
+        lambda obj, create, extracted, **kwargs: (
+            obj.groups.set(extracted) if extracted and create else None
+        )
+    )
 
     class Meta:
         model = get_user_model()
+
+    class Params:
+        admin = factory.Trait(is_staff=True, is_superuser=True)
