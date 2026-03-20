@@ -26,11 +26,12 @@ class DataMixin:
 
 class PermissionMixin:
     """
-    Проверяет, является ли пользователем статьи.
+    Проверяет, является ли автором статьи или суперпользователем.
     ! Модель должна содержать поле user.
     """
     def get_object(self, queryset=None):
         model = super().get_object(queryset)
+        if self.request.user.is_superuser: return model
         if self.request.user != model.user:
             raise PermissionDenied
         return model
