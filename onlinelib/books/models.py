@@ -6,6 +6,8 @@ from genre.models import Genre, Tag, AgeRating, ContentWarning
 from author.models import Author
 
 
+DEFAULT_COVER_IMAGE = 'books/covers/default.png'
+
 class ActiveManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(status=Book.StatusType.AVAILABLE)
@@ -20,7 +22,7 @@ class Book(models.Model):
     cover_image = models.ImageField(
         upload_to='books/covers/%Y/%m/%d/',
         blank=False, null=False,
-        default='books/covers/default.png',
+        default=DEFAULT_COVER_IMAGE,
         verbose_name="Обложка"
     )
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
