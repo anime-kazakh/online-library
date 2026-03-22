@@ -12,9 +12,9 @@ class UserFactory(DjangoModelFactory):
     @factory.post_generation
     def groups(self, create, extracted, **kwargs):
         if not create or not extracted:
-            return
+            return None
 
-        self.groups.add(*extracted)
+        return self.groups.add(*extracted)
 
     class Meta:
         model = get_user_model()
