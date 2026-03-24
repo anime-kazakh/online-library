@@ -35,3 +35,14 @@ class PermissionMixin:
         if self.request.user != model.user:
             raise PermissionDenied
         return model
+
+
+class AddCurrentUserMixin:
+    """
+    Добавляет в поле user текущего пользователя из контекста.
+    ! Модель и сериализатор должны содержать поле user.
+    """
+
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
