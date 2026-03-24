@@ -4,6 +4,10 @@ from django.contrib.auth.password_validation import validate_password
 
 
 class UserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(
+        write_only=True,
+        required=True,
+    )
     password = serializers.CharField(
         write_only=True,
         required=True,
@@ -20,14 +24,14 @@ class UserSerializer(serializers.ModelSerializer):
                   'password2', 'email', 'first_name',
                   'last_name')
         read_only_fields = ('id', )
-        write_only_fields = ('password', 'password2', 'email',
-                             'first_name', 'last_name')
         extra_kwargs = {
             'first_name': {
                 'required': False,
+                'write_only': True,
             },
             'last_name': {
                 'required': False,
+                'write_only': True,
             },
         }
 
