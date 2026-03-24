@@ -1,9 +1,11 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
-from rest_framework import serializers, status
+from rest_framework import serializers, status, generics
 from rest_framework.decorators import action
 from rest_framework.exceptions import NotFound
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .permissions import IsAuthorOrReadOnly, IsAdminOrReadOnly, IsOwnerStuffOrReadOnly
 
@@ -15,6 +17,7 @@ from genre.serializers import GenreSerializer, TagSerializer, ContentWarningSeri
 from genre.models import Genre, Tag, ContentWarning, AgeRating
 from reactions.serializers import BookCommentsSerializer, BookScoreSerializer
 from reactions.models import BookComments, BookScore
+from users.serializers import UserSerializer
 
 
 # ------------------Author API --------------------------------
@@ -153,3 +156,27 @@ class BookScoreViewSet(viewsets.ModelViewSet):
             raise serializers.ValidationError('Вы уже оценили эту книгу')
 
         serializer.save(book=book)
+
+
+# ---------------------------- Register ---------------------------
+class RegisterUserView(generics.CreateAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        headers = self.get_success_headers(serializer.data)
+
+        token = RefreshToken().for_user(user)
+
+        return Response(
+            {
+                'user': serializer.data,
+                'refresh': str(token),
+                'access': str(token.access_token),
+            },
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
