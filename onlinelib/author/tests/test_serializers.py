@@ -26,7 +26,7 @@ class TestAuthorSerializer:
         assert data['user']['username'] == author.user.username
 
     # ------------- deserializing ----------------------------------
-    def test_deserializing(self, request_context):
+    def test_deserializing(self, _request):
         data = {
             'full_name': 'test_name',
             'slug': 'test_slug',
@@ -34,18 +34,17 @@ class TestAuthorSerializer:
             'bio': 'test_bio',
         }
 
-        serializer = AuthorSerializer(data=data, context={'request': request_context})
+        serializer = AuthorSerializer(data=data, context={'request': _request})
         assert serializer.is_valid(), serializer.errors
         author = serializer.save()
         assert author.full_name == data['full_name']
         assert author.slug == data['slug']
         assert author.birth_date.isoformat() == data['birth_date']
         assert author.bio == data['bio']
-        assert author.user.id == request_context.user.id
-        assert author.user.username == request_context.user.username
+        assert author.user == _request.user
 
     # --------------- read only fields ------------------------
-    def test_read_only_fields(self, request_context):
+    def test_read_only_fields(self, _request):
         fake_upload_date = '2000-01-01'
         data = {
             'full_name': 'test_name',
@@ -56,7 +55,7 @@ class TestAuthorSerializer:
             'user': UserFactory(),
         }
 
-        serializer = AuthorSerializer(data=data, context={'request': request_context})
+        serializer = AuthorSerializer(data=data, context={'request': _request})
         assert serializer.is_valid(), serializer.errors
         author = serializer.save()
 

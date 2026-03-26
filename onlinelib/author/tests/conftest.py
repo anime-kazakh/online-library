@@ -14,7 +14,7 @@ def superuser():
     return UserFactory(admin=True)
 
 @pytest.fixture
-def request_context(superuser):
-    _request = APIRequestFactory()
-    _request.user = superuser
-    return _request
+def _request(superuser):
+    _req = APIRequestFactory()
+    _req.user = superuser
+    return _req
