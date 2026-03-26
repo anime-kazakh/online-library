@@ -1,5 +1,5 @@
 import pytest
-from django.contrib.auth.models import Group, Permission
+from rest_framework.test import APIRequestFactory
 
 from users.tests.factories import UserFactory
 from .factories import AuthorFactory
@@ -12,3 +12,9 @@ def author():
 @pytest.fixture
 def superuser():
     return UserFactory(admin=True)
+
+@pytest.fixture
+def request_context(superuser):
+    _request = APIRequestFactory()
+    _request.user = superuser
+    return _request
