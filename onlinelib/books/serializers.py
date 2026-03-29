@@ -8,17 +8,28 @@ from common.utils import AddCurrentUserMixin
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
-        fields = '__all__'
+        fields = ('id', 'name', 'code')
 
 
-class FileSerializer(AddCurrentUserMixin, serializers.ModelSerializer):
+class FileReadSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     language = LanguageSerializer(read_only=True)
 
     class Meta:
         model = Files
-        fields = '__all__'
-        read_only_fields = ('upload_date', 'user')
+        fields = ('id', 'book', 'book_file',
+                  'language', 'upload_date',
+                  'download_count', 'user')
+        read_only_fields = ('upload_date', 'download_count', 'user')
+
+
+class FileWriteSerializer(AddCurrentUserMixin, serializers.ModelSerializer):
+    class Meta:
+        model = Files
+        fields = ('id', 'book', 'book_file',
+                  'language', 'upload_date',
+                  'download_count', 'user')
+        read_only_fields = ('upload_date', 'download_count', 'user')
 
 
 class AuthorSerializer(serializers.Serializer):
@@ -29,7 +40,7 @@ class AuthorSerializer(serializers.Serializer):
 
 class BookReadSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    files = FileSerializer(many=True, read_only=True)
+    files = FileReadSerializer(many=True, read_only=True)
     authors = AuthorSerializer(many=True, read_only=True)
 
     class Meta:
@@ -44,8 +55,6 @@ class BookReadSerializer(serializers.ModelSerializer):
 
 
 class BookWriteSerializer(AddCurrentUserMixin, serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-
     class Meta:
         model = Book
         fields = ('id', 'title', 'original_title',
@@ -54,4 +63,4 @@ class BookWriteSerializer(AddCurrentUserMixin, serializers.ModelSerializer):
                   'views_count', 'status', 'authors',
                   'genres', 'tags', 'age_rating',
                   'warnings', 'user')
-        read_only_fields = ('upload_date', )
+        read_only_fields = ('upload_date', 'user')
