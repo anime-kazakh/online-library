@@ -27,12 +27,31 @@ class AuthorSerializer(serializers.Serializer):
     slug = serializers.CharField()
 
 
-class BookSerializer(AddCurrentUserMixin, serializers.ModelSerializer):
+class BookReadSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     files = FileSerializer(many=True, read_only=True)
     authors = AuthorSerializer(many=True, read_only=True)
 
     class Meta:
         model = Book
-        fields = '__all__'
+        fields = ('id', 'title', 'original_title',
+                  'slug', 'cover_image', 'description',
+                  'publication_year', 'upload_date',
+                  'views_count', 'status', 'authors',
+                  'genres', 'tags', 'age_rating',
+                  'warnings', 'files', 'user')
         read_only_fields = ('upload_date', 'user')
+
+
+class BookWriteSerializer(AddCurrentUserMixin, serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Book
+        fields = ('id', 'title', 'original_title',
+                  'slug', 'cover_image', 'description',
+                  'publication_year', 'upload_date',
+                  'views_count', 'status', 'authors',
+                  'genres', 'tags', 'age_rating',
+                  'warnings', 'user')
+        read_only_fields = ('upload_date', )
