@@ -3,8 +3,8 @@ from django.utils.text import slugify
 import factory
 from factory.django import DjangoModelFactory
 
+from genre.tests.factories import AgeRatingFactory
 from ..models import Book, Files, Language
-from author.tests.factories import AuthorFactory
 from users.tests.factories import UserFactory
 
 
@@ -17,8 +17,8 @@ class BookFactory(DjangoModelFactory):
     slug = factory.LazyAttribute(lambda o: slugify(o.title))
     description = factory.Faker('paragraph', nb_sentences=3)
     publication_year = factory.Faker('year')
-    authors = factory.SubFactory(AuthorFactory)
     user = factory.SubFactory(UserFactory)
+    age_rating = factory.SubFactory(AgeRatingFactory)
 
     @factory.post_generation
     def authors(self, create, extracted, **kwargs):
