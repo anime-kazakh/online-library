@@ -11,7 +11,7 @@ from .permissions import IsAuthorOrReadOnly, IsAdminOrReadOnly, IsOwnerStuffOrRe
 
 from author.serializers import AuthorSerializer
 from author.models import Author
-from books.serializers import BookSerializer, FileSerializer, LanguageSerializer
+from books.serializers import BookReadSerializer, BookWriteSerializer, FileReadSerializer, FileWriteSerializer, LanguageSerializer
 from books.models import Book, Files, Language
 from genre.serializers import GenreSerializer, TagSerializer, ContentWarningSerializer, AgeRatingSerializer
 from genre.models import Genre, Tag, ContentWarning, AgeRating
@@ -30,7 +30,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
 # ------------------Books API --------------------------------
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
-    serializer_class = BookSerializer
+    # serializer_class = BookSerializer
     permission_classes = (IsAuthorOrReadOnly, )
     ordering_fields = '__all__'
     # filterset_fields = ('authors', 'genres', 'tags',
@@ -53,6 +53,11 @@ class BookViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(books, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return BookWriteSerializer
+        return BookReadSerializer
+
 
 class LanguageViewSets(viewsets.ModelViewSet):
     queryset = Language.objects.all()
@@ -62,7 +67,7 @@ class LanguageViewSets(viewsets.ModelViewSet):
 
 class FileViewSet(viewsets.ModelViewSet):
     queryset = Files.objects.all()
-    serializer_class = FileSerializer
+    # serializer_class = FileSerializer
     permission_classes = (IsAuthorOrReadOnly,)
 
     def get_queryset(self):
@@ -79,6 +84,11 @@ class FileViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         book = get_object_or_404(Book, pk=self.kwargs.get('book_pk'))
         serializer.save(book=book)
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return FileWriteSerializer
+        return FileReadSerializer
 
 
 # ------------------Genres API --------------------------------
